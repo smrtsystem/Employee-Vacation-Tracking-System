@@ -3,7 +3,7 @@ let currentUserRole = null;
 let currentUserName = null;
 const users = {
     admin: { password: "535680", role: "admin", name: "Administrator" },
-    user: { password: "742744", role: "user", name: "Guest User" }
+    user: { password: "742744", role: "user", name: "Normal User" }
 };
 
 function attemptLogin() {
@@ -242,8 +242,10 @@ function renderMainTable() {
                   </td>
                   <td><span class="${statusClass}">${fresh.status}</span></td>
                   <td class="today-message-cell">${escapeHtml(fresh.todayMessage)}</td>
-                  <td class="action-buttons">${admin ? `<button class="action-btn delete-btn" onclick="deleteNewRecord(${idx})">🗑️ Delete</button>` : ''}</td>
-                </tr>`;
+                  <td class="action-buttons">
+                    ${admin ? `<button class="action-btn delete-btn" onclick="deleteNewRecord(${idx})">🗑️ Delete</button>` : ''}
+                  </td>
+                <tr>`;
     });
     tbody.innerHTML = html;
     if (admin) attachMainEvents();
@@ -363,7 +365,7 @@ function renderModalTable() {
                             <button class="action-btn save-edit-btn" onclick="saveModalEdit(${idx})">💾 Save</button>
                             <button class="action-btn cancel-edit-btn" onclick="cancelModalEdit()">❌ Cancel</button>
                         </td>
-                      </td>`;
+                      </tr>`;
         } else {
             let pdfHtml = fresh.hasPdf ? `<span style="color:#2e7d64;">✓ PDF</span><br><span style="font-size:9px;">${fresh.pdfName.substring(0,10)}</span>` : '-';
             html += `<tr>
@@ -379,7 +381,7 @@ function renderModalTable() {
                         <td class="today-message-cell">${escapeHtml(fresh.todayMessage)}</td>
                         <td class="modal-actions">
                             ${admin ? `<button class="action-btn edit-btn" onclick="startModalEdit(${idx})">✏️ Edit</button>` : ''}
-                            ${fresh.hasPdf ? `<button class="action-btn view-pdf-btn" onclick="viewModalPdfLarge(${idx})">👁️ View PDF</button>` : ''}
+                            ${admin && fresh.hasPdf ? `<button class="action-btn view-pdf-btn" onclick="viewModalPdfLarge(${idx})">👁️ View PDF</button>` : ''}
                             ${admin ? `<button class="action-btn delete-btn" onclick="deleteModalRecord(${idx})">🗑️ Delete Record</button>` : ''}
                         </td>
                       </tr>`;
