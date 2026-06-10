@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Employee Vacation System ✅</title>
+    <title>Skyinfotech Ltd.</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Chart.js for analytics charts -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
 <body>
@@ -24,8 +23,8 @@
         <div id="loginError" class="error-msg"></div>
         <div style="margin-top: 20px; font-size: 12px; color: #666;">
             <p><strong>Crafted by BBC</strong></p>
-            <p>(Vacation Management System)</p>
             <p>Namaste 🙏</p>
+            <p>(Vacation Management System)</p>
         </div>
     </div>
 </div>
@@ -34,7 +33,8 @@
     <div class="company-header">
         <div class="title-section">
             <h1>SKYINFOTECH <span>LTD.</span></h1>
-            <div class="tagline"><i class="fas fa-cloud-upload-alt"></i> Google Sheets Integration · Smart HR Management</div>
+            <div class="tagline"><i class="fas fa-cloud-upload-alt"></i> Google Sheets Integration · Employee Vacation Tracking System</title>
+    <link rel="stylesheet" href="style.css"></div>
         </div>
         <div class="stats-badge" id="liveStats">
             <div class="stat-item"><i class="fas fa-users"></i> <span id="totalEmployeesStat">0</span> New Records</div>
@@ -45,7 +45,6 @@
         </div>
     </div>
 
-    <!-- User Info Bar -->
     <div class="login-section">
         <div class="user-info">
             <i class="fas fa-user-circle"></i>
@@ -56,7 +55,6 @@
         <button class="logout-btn" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
     </div>
 
-    <!-- Hero Section with Main Title -->
     <div class="hero-section">
         <div class="hero-title">
             <i class="fas fa-umbrella-beach"></i> Employee Vacation Tracking System
@@ -91,21 +89,20 @@
             <thead>
                 <tr>
                     <th>S/N</th>
-                    <th>Employee Name</th>
+                    <th>Employee</th>
                     <th>Remarks</th>
-                    <th>Departure Date</th>
-                    <th>Return Date</th>
-                    <th>Vacation Days</th>
-                    <th>Tickets Taken</th>
-                    <th>PDF Ticket</th>
+                    <th>Departure</th>
+                    <th>Return</th>
+                    <th>Vac. Days</th>
+                    <th>Tickets</th>
+                    <th>PDF</th>
                     <th>Status</th>
-                    <th>Days Until Departure</th>
-                    <th>Days After Return</th>
+                    <th>Message</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody id="tableBody">
-                <tr><td colspan="12" style="text-align:center; padding: 2.5rem;">Click "Refresh & Load" to fetch data from Google Sheet</td}</td>
+                <tr><td colspan="11" style="text-align:center; padding: 2.5rem;">Click "Refresh & Load" to fetch data from Google Sheet</td}</td>
             </tbody>
         </table>
     </div>
@@ -117,97 +114,36 @@
         <span><i class="fas fa-chart-line"></i> Analytics auto‑refresh when data loads</span>
     </div>
 
-    <!-- ========== ANALYTICS DASHBOARD (medium size, before footer) ========== -->
     <div class="analytics-section">
         <div class="section-title">
             <i class="fas fa-chart-line"></i> Analytics Dashboard
             <button class="btn-refresh-analytics" id="refreshAnalyticsBtn" title="Refresh charts"><i class="fas fa-sync-alt"></i></button>
         </div>
-        
-        <!-- Summary Cards -->
         <div class="analytics-cards">
-            <div class="analytics-card">
-                <i class="fas fa-users"></i>
-                <div class="card-info">
-                    <span class="card-label">Total Employees</span>
-                    <span class="card-value" id="analyticsTotalEmployees">0</span>
-                </div>
-            </div>
-            <div class="analytics-card">
-                <i class="fas fa-calendar-week"></i>
-                <div class="card-info">
-                    <span class="card-label">Total Vacation Days</span>
-                    <span class="card-value" id="analyticsTotalVacationDays">0</span>
-                </div>
-            </div>
-            <div class="analytics-card">
-                <i class="fas fa-chart-simple"></i>
-                <div class="card-info">
-                    <span class="card-label">Avg. Vacation Days</span>
-                    <span class="card-value" id="analyticsAvgVacationDays">0</span>
-                </div>
-            </div>
-            <div class="analytics-card">
-                <i class="fas fa-hourglass-half"></i>
-                <div class="card-info">
-                    <span class="card-label">Upcoming Trips</span>
-                    <span class="card-value" id="analyticsUpcoming">0</span>
-                </div>
-            </div>
-            <div class="analytics-card">
-                <i class="fas fa-plane"></i>
-                <div class="card-info">
-                    <span class="card-label">Ongoing Trips</span>
-                    <span class="card-value" id="analyticsOngoing">0</span>
-                </div>
-            </div>
-            <div class="analytics-card">
-                <i class="fas fa-check-circle"></i>
-                <div class="card-info">
-                    <span class="card-label">Ticket Confirmed</span>
-                    <span class="card-value" id="analyticsConfirmed">0</span>
-                </div>
-            </div>
+            <div class="analytics-card"><i class="fas fa-users"></i><div class="card-info"><span class="card-label">Total Employees</span><span class="card-value" id="analyticsTotalEmployees">0</span></div></div>
+            <div class="analytics-card"><i class="fas fa-calendar-week"></i><div class="card-info"><span class="card-label">Total Vacation Days</span><span class="card-value" id="analyticsTotalVacationDays">0</span></div></div>
+            <div class="analytics-card"><i class="fas fa-chart-simple"></i><div class="card-info"><span class="card-label">Avg. Vacation Days</span><span class="card-value" id="analyticsAvgVacationDays">0</span></div></div>
+            <div class="analytics-card"><i class="fas fa-hourglass-half"></i><div class="card-info"><span class="card-label">Upcoming Trips</span><span class="card-value" id="analyticsUpcoming">0</span></div></div>
+            <div class="analytics-card"><i class="fas fa-plane"></i><div class="card-info"><span class="card-label">Ongoing Trips</span><span class="card-value" id="analyticsOngoing">0</span></div></div>
+            <div class="analytics-card"><i class="fas fa-check-circle"></i><div class="card-info"><span class="card-label">Ticket Confirmed</span><span class="card-value" id="analyticsConfirmed">0</span></div></div>
         </div>
-
-        <!-- Charts Row -->
         <div class="charts-row">
-            <div class="chart-box">
-                <h4><i class="fas fa-chart-bar"></i> Vacation Days by Month</h4>
-                <canvas id="monthlyChart" width="400" height="200"></canvas>
-            </div>
-            <div class="chart-box">
-                <h4><i class="fas fa-chart-pie"></i> Status Distribution</h4>
-                <canvas id="statusChart" width="400" height="200"></canvas>
-            </div>
+            <div class="chart-box"><h4><i class="fas fa-chart-bar"></i> Vacation Days by Month</h4><canvas id="monthlyChart" width="400" height="200"></canvas></div>
+            <div class="chart-box"><h4><i class="fas fa-chart-pie"></i> Status Distribution</h4><canvas id="statusChart" width="400" height="200"></canvas></div>
         </div>
-        <div class="analytics-note">
-            <i class="fas fa-info-circle"></i> Analytics based on data loaded from Google Sheet.
-        </div>
+        <div class="analytics-note"><i class="fas fa-info-circle"></i> Analytics based on data loaded from Google Sheet.</div>
     </div>
 </div>
 
-<!-- Footer -->
 <footer class="main-footer" id="mainFooter" style="display: none;">
     <div class="footer-content">
-        <div class="footer-copyright">
-            <i class="fas fa-copyright"></i> 2026 Skyinfotech Ltd. All rights reserved.
-        </div>
-        <div class="footer-links">
-            <a href="#"><i class="fas fa-envelope"></i> hr@skyinfotech.com</a>
-            <a href="#"><i class="fas fa-phone"></i> +000000000</a>
-            <a href="#"><i class="fas fa-globe"></i> www.skyinfotech.com</a>
-        </div>
-        <div class="footer-social">
-            <i class="fab fa-linkedin"></i>
-            <i class="fab fa-twitter"></i>
-            <i class="fab fa-facebook"></i>
-            <i class="fab fa-instagram"></i>
-        </div>
+        <div class="footer-copyright"><i class="fas fa-copyright"></i> 2026 Skyinfotech Ltd. All rights reserved.</div>
+        <div class="footer-links"><a href="#"><i class="fas fa-envelope"></i> customersupport@skyinfotech.com</a><a href="#"><i class="fas fa-phone"></i> #</a><a href="#"><i class="fas fa-globe"></i> www.skyinfotech.com</a></div>
+        <div class="footer-social"><i class="fab fa-linkedin"></i><i class="fab fa-twitter"></i><i class="fab fa-facebook"></i><i class="fab fa-instagram"></i></div>
     </div>
 </footer>
 
-<!-- Modal Popup for Viewing/Editing Sheet Data -->
+<!-- Modal Popup -->
 <div id="sheetModal" class="modal">
     <div class="modal-content">
         <div class="modal-header">
@@ -221,21 +157,20 @@
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Employee Name</th>
+                            <th>Employee</th>
                             <th>Remarks</th>
                             <th>Departure</th>
                             <th>Return</th>
-                            <th>Vacation Days</th>
+                            <th>Vac. Days</th>
                             <th>Tickets</th>
                             <th>PDF</th>
                             <th>Status</th>
-                            <th>Days Until</th>
-                            <th>Days After</th>
+                            <th>Message</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody id="modalTableBody">
-                        <tr><td colspan="12" style="text-align:center; padding:40px;">Click "Refresh & Load" first</td}</tr>
+                        <tr><td colspan="11" style="text-align:center; padding:40px;">Click "Refresh & Load" first</td}</tr>
                     </tbody>
                 </table>
             </div>
