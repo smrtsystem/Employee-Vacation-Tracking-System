@@ -12,10 +12,10 @@ body {
     flex-direction: column;
 }
 
-/* Main container */
+/* Homepage size reduced to 65% (two steps smaller) */
 .dashboard-container {
-    max-width: 1600px;
-    width: 95%;
+    max-width: 85%;
+    width: 85%;
     margin: 20px auto;
     background: white;
     border-radius: 28px;
@@ -23,8 +23,6 @@ body {
     overflow: hidden;
     flex: 1;
 }
-
-/* Company Header */
 .company-header {
     background: linear-gradient(135deg, #0b2b3b 0%, #123b4e 100%);
     padding: 1.5rem 2rem;
@@ -78,7 +76,6 @@ body {
     color: #ffcd7e;
 }
 
-/* Login Section */
 .login-section {
     background: #e8f0fe;
     padding: 1rem 2rem;
@@ -126,7 +123,6 @@ body {
     transform: scale(1.02);
 }
 
-/* Hero Section */
 .hero-section {
     background: linear-gradient(135deg, #f8fafd 0%, #eef2f7 100%);
     padding: 1.5rem 2rem;
@@ -152,7 +148,6 @@ body {
     color: #5f7d8c;
 }
 
-/* Google Section */
 .google-section {
     background: #e8f0fe;
     padding: 0.8rem 2rem;
@@ -175,7 +170,6 @@ body {
     gap: 8px;
 }
 
-/* Action Bar */
 .action-bar {
     padding: 1rem 2rem;
     background: #f8fafd;
@@ -278,7 +272,6 @@ body {
     pointer-events: none;
 }
 
-/* Table */
 .table-wrapper {
     overflow-x: auto;
     padding: 0;
@@ -288,7 +281,7 @@ body {
     width: 100%;
     border-collapse: collapse;
     font-size: 0.8rem;
-    min-width: 1200px;
+    min-width: 1300px;
 }
 
 .record-table th {
@@ -338,7 +331,6 @@ input[type="date"] {
     border-radius: 8px;
 }
 
-/* Status Badges */
 .status-confirmed {
     background: #d4f1e8;
     color: #0f6b52;
@@ -379,7 +371,6 @@ input[type="date"] {
     display: inline-block;
 }
 
-/* Action Buttons */
 .pdf-btn {
     background: #f05454;
     border: none;
@@ -468,7 +459,6 @@ input[type="date"] {
     background: #c73b3b;
 }
 
-/* Login Modal */
 .login-modal {
     display: flex;
     position: fixed;
@@ -529,7 +519,6 @@ input[type="date"] {
     display: none;
 }
 
-/* Modals */
 .modal {
     display: none;
     position: fixed;
@@ -604,7 +593,6 @@ input[type="date"] {
     flex-wrap: wrap;
 }
 
-/* PDF Viewer Modal */
 .pdf-modal {
     display: none;
     position: fixed;
@@ -675,7 +663,6 @@ input[type="date"] {
     justify-content: space-between;
 }
 
-/* Footer */
 .main-footer {
     background: linear-gradient(135deg, #0b2b3b 0%, #123b4e 100%);
     color: white;
@@ -744,7 +731,6 @@ input[type="date"] {
     flex-wrap: wrap;
 }
 
-/* ========== ANALYTICS DASHBOARD (medium size, before footer) ========== */
 .analytics-section {
     background: #ffffff;
     margin: 1rem;
