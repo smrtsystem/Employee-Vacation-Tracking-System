@@ -3,7 +3,7 @@ let currentUserRole = null;
 let currentUserName = null;
 const users = {
     admin: { password: "535680", role: "admin", name: "Administrator" },
-    user: { password: "742744", role: "user", name: "Normal User" }
+    user: { password: "742744", role: "user", name: "Guest User" }
 };
 
 function attemptLogin() {
@@ -74,21 +74,43 @@ function calculateVacationDays(departureStr, returnStr) {
     if (isNaN(start) || isNaN(end)) return 0;
     return Math.ceil((end - start) / (86400000)) + 1;
 }
+
+// FIX: local date formatting – no timezone shift
 function formatDateToYMD(dateValue) {
     if (!dateValue) return '';
-    if (typeof dateValue === 'string' && dateValue.match(/^\d{4}-\d{2}-\d{2}$/)) return dateValue;
     const date = new Date(dateValue);
-    return isNaN(date) ? '' : date.toISOString().split('T')[0];
+    if (isNaN(date.getTime())) return '';
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
 }
 
-// Enhanced message: counts days until departure, days on vacation, and days since return
+// FIX: local date parsing (no UTC conversion)
+function parseDateLocal(dateStr) {
+    if (!dateStr) return null;
+    if (dateStr instanceof Date) return new Date(dateStr.getFullYear(), dateStr.getMonth(), dateStr.getDate());
+    const parts = dateStr.split(/[-/]/);
+    if (parts.length === 3) {
+        let year = parseInt(parts[0]), month = parseInt(parts[1])-1, day = parseInt(parts[2]);
+        if (year < 1000) { // try DD/MM/YYYY
+            year = parseInt(parts[2]);
+            month = parseInt(parts[1])-1;
+            day = parseInt(parts[0]);
+        }
+        return new Date(year, month, day);
+    }
+    return null;
+}
+
+// Message with countdown using local dates
 function getTodayMessage(departureStr, returnStr) {
     const today = getToday();
-    const departure = departureStr ? new Date(departureStr) : null;
-    const returnDate = returnStr ? new Date(returnStr) : null;
+    const departure = parseDateLocal(departureStr);
+    const returnDate = parseDateLocal(returnStr);
     if (!departure || !returnDate) return "⏳ Dates not set";
-    const depMid = new Date(departure); depMid.setHours(0,0,0,0);
-    const retMid = new Date(returnDate); retMid.setHours(0,0,0,0);
+    const depMid = new Date(departure.getFullYear(), departure.getMonth(), departure.getDate());
+    const retMid = new Date(returnDate.getFullYear(), returnDate.getMonth(), returnDate.getDate());
     const todayMid = today;
     if (todayMid < depMid) {
         const daysDiff = Math.ceil((depMid - todayMid) / 86400000);
@@ -113,7 +135,7 @@ function recalcRowFields(row) {
     row.ticketsTaken = parseInt(row.ticketsTaken) || 0;
     if (row.hasPdf && row.pdfName) row.status = "Ticket Confirm";
     else if (row.departure && row.return) {
-        const today = getToday(), dep = new Date(row.departure), ret = new Date(row.return);
+        const today = getToday(), dep = parseDateLocal(row.departure), ret = parseDateLocal(row.return);
         if (today > ret) row.status = "Completed";
         else if (today >= dep && today <= ret) row.status = "Ongoing";
         else if (today < dep) row.status = "Upcoming";
@@ -168,8 +190,8 @@ function updateAnalytics() {
     const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
     sheetData.forEach(e => {
         if (e.departure) {
-            const d = new Date(e.departure);
-            if (!isNaN(d)) {
+            const d = parseDateLocal(e.departure);
+            if (d) {
                 const m = d.getMonth();
                 monthMap.set(m, (monthMap.get(m)||0) + (e.vacationDays||0));
             }
@@ -203,7 +225,7 @@ function renderMainTable() {
     const tbody = document.getElementById('tableBody');
     const admin = isAdmin();
     if (!employeesData.length) {
-        tbody.innerHTML = `<tr><td colspan="11" style="text-align:center; padding:2.5rem;">Click "Add New Record" to add employee</td}</tr>`;
+        tbody.innerHTML = `<td><td colspan="11" style="text-align:center; padding:2.5rem;">Click "Add New Record" to add employee</td}</tr>`;
         updateStatsUI();
         return;
     }
@@ -245,7 +267,7 @@ function renderMainTable() {
                   <td class="action-buttons">
                     ${admin ? `<button class="action-btn delete-btn" onclick="deleteNewRecord(${idx})">🗑️ Delete</button>` : ''}
                   </td>
-                <tr>`;
+                </tr>`;
     });
     tbody.innerHTML = html;
     if (admin) attachMainEvents();
@@ -333,7 +355,7 @@ function closeLargePdf() {
 function renderModalTable() {
     const tbody = document.getElementById('modalTableBody');
     const admin = isAdmin();
-    if (!sheetData.length) { tbody.innerHTML = '<tr><td colspan="11" style="padding:40px;">No records. Click "Refresh & Load" first.<?td></tr>'; return; }
+    if (!sheetData.length) { tbody.innerHTML = '<tr><td colspan="11" style="padding:40px;">No records. Click "Refresh & Load" first.<?td></td>'; return; }
     let html = '';
     sheetData.forEach((emp, idx) => {
         const isEditing = (admin && editingModalRowId === idx);
