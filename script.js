@@ -3,7 +3,7 @@ let currentUserRole = null;
 let currentUserName = null;
 const users = {
     admin: { password: "535680", role: "admin", name: "Administrator" },
-    user: { password: "742744", role: "user", name: "Normal User" }
+    user: { password: "742744", role: "user", name: "Guest User" }
 };
 
 function attemptLogin() {
@@ -74,30 +74,42 @@ function calculateVacationDays(departureStr, returnStr) {
     if (isNaN(start) || isNaN(end)) return 0;
     return Math.ceil((end - start) / (86400000)) + 1;
 }
-function calculateDaysUntilDeparture(departureStr) {
-    if (!departureStr) return 0;
-    const departure = new Date(departureStr), today = getToday();
-    if (isNaN(departure)) return 0;
-    const diff = Math.ceil((departure - today) / 86400000);
-    return diff > 0 ? diff : 0;
-}
-function calculateDaysAfterReturn(returnStr) {
-    if (!returnStr) return 0;
-    const returnDate = new Date(returnStr), today = getToday();
-    if (isNaN(returnDate)) return 0;
-    const diff = Math.ceil((today - returnDate) / 86400000);
-    return diff > 0 ? diff : 0;
-}
 function formatDateToYMD(dateValue) {
     if (!dateValue) return '';
     if (typeof dateValue === 'string' && dateValue.match(/^\d{4}-\d{2}-\d{2}$/)) return dateValue;
     const date = new Date(dateValue);
     return isNaN(date) ? '' : date.toISOString().split('T')[0];
 }
+
+// Enhanced message: counts days until departure, days on vacation, and days since return
+function getTodayMessage(departureStr, returnStr) {
+    const today = getToday();
+    const departure = departureStr ? new Date(departureStr) : null;
+    const returnDate = returnStr ? new Date(returnStr) : null;
+    if (!departure || !returnDate) return "⏳ Dates not set";
+    const depMid = new Date(departure); depMid.setHours(0,0,0,0);
+    const retMid = new Date(returnDate); retMid.setHours(0,0,0,0);
+    const todayMid = today;
+    if (todayMid < depMid) {
+        const daysDiff = Math.ceil((depMid - todayMid) / 86400000);
+        return `🔜 ${daysDiff} day${daysDiff !== 1 ? 's' : ''} until departure`;
+    }
+    if (todayMid.getTime() === depMid.getTime()) return "🏠 Departure today";
+    if (todayMid > depMid && todayMid < retMid) {
+        const daysToReturn = Math.ceil((retMid - todayMid) / 86400000);
+        return `🌴 On vacation (returns in ${daysToReturn} day${daysToReturn !== 1 ? 's' : ''})`;
+    }
+    if (todayMid.getTime() === retMid.getTime()) return "📅 Return today – back to work tomorrow";
+    if (todayMid > retMid) {
+        const daysBack = Math.ceil((todayMid - retMid) / 86400000);
+        return `✅ Back at work (${daysBack} day${daysBack !== 1 ? 's' : ''} ago)`;
+    }
+    return "⏳ Upcoming";
+}
+
 function recalcRowFields(row) {
     row.vacationDays = calculateVacationDays(row.departure, row.return);
-    row.daysUntilDeparture = calculateDaysUntilDeparture(row.departure);
-    row.daysAfterReturn = calculateDaysAfterReturn(row.return);
+    row.todayMessage = getTodayMessage(row.departure, row.return);
     row.ticketsTaken = parseInt(row.ticketsTaken) || 0;
     if (row.hasPdf && row.pdfName) row.status = "Ticket Confirm";
     else if (row.departure && row.return) {
@@ -109,6 +121,7 @@ function recalcRowFields(row) {
     } else row.status = "Draft";
     return row;
 }
+
 function updateStatsUI() {
     const total = employeesData.length;
     let totalDays = 0, totalTickets = 0, confirmed = 0;
@@ -122,6 +135,7 @@ function updateStatsUI() {
     document.getElementById('totalTicketsStat').innerText = totalTickets;
     document.getElementById('confirmedStat').innerText = confirmed;
 }
+
 function escapeHtml(str) { if (!str) return ''; return str.replace(/[&<>]/g, m => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;' }[m])); }
 
 // ========== ANALYTICS & CHARTS ==========
@@ -184,12 +198,12 @@ function updateAnalytics() {
     });
 }
 
-// ========== MAIN TABLE RENDER (New Records Only) ==========
+// ========== MAIN TABLE RENDER ==========
 function renderMainTable() {
     const tbody = document.getElementById('tableBody');
     const admin = isAdmin();
     if (!employeesData.length) {
-        tbody.innerHTML = `<table><td colspan="12" style="text-align:center; padding:2.5rem;">Click "Add New Record" to add employee</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="11" style="text-align:center; padding:2.5rem;">Click "Add New Record" to add employee</td}</tr>`;
         updateStatsUI();
         return;
     }
@@ -227,8 +241,7 @@ function renderMainTable() {
                     ${fresh.pdfName && admin ? `<div class="pdf-name-display">${fresh.pdfName.substring(0,12)}</div>` : ''}
                   </td>
                   <td><span class="${statusClass}">${fresh.status}</span></td>
-                  <td class="days-until-cell">${fresh.daysUntilDeparture}</td>
-                  <td class="days-after-cell">${fresh.daysAfterReturn}</td>
+                  <td class="today-message-cell">${escapeHtml(fresh.todayMessage)}</td>
                   <td class="action-buttons">${admin ? `<button class="action-btn delete-btn" onclick="deleteNewRecord(${idx})">🗑️ Delete</button>` : ''}</td>
                 </tr>`;
     });
@@ -236,6 +249,7 @@ function renderMainTable() {
     if (admin) attachMainEvents();
     updateStatsUI();
 }
+
 function attachMainEvents() {
     if (!isAdmin()) return;
     document.querySelectorAll('.pdf-btn').forEach(btn => {
@@ -252,6 +266,7 @@ function attachMainEvents() {
         inp.onblur = () => updateMainRowCalculation(parseInt(inp.dataset.idx));
     });
 }
+
 function updateMainRowCalculation(idx) {
     if (!isAdmin()) return;
     const row = document.querySelector(`tr[data-idx="${idx}"]`);
@@ -262,9 +277,9 @@ function updateMainRowCalculation(idx) {
     employeesData[idx].return = row.querySelector('.emp-return')?.value || '';
     employeesData[idx].ticketsTaken = parseInt(row.querySelector('.emp-tickets')?.value) || 0;
     employeesData[idx] = recalcRowFields(employeesData[idx]);
-    const daysCell = row.querySelector('.vacation-cell');
-    if (daysCell) daysCell.innerText = employeesData[idx].vacationDays;
-    const statusSpan = row.querySelector('td:nth-child(9) span');
+    const vacationCell = row.querySelector('.vacation-cell');
+    if (vacationCell) vacationCell.innerText = employeesData[idx].vacationDays;
+    const statusSpan = row.querySelector('td:nth-child(8) span');
     if (statusSpan) {
         let cls = 'status-pending';
         if (employeesData[idx].status === 'Ticket Confirm') cls = 'status-confirmed';
@@ -273,8 +288,11 @@ function updateMainRowCalculation(idx) {
         statusSpan.className = cls;
         statusSpan.innerText = employeesData[idx].status;
     }
+    const todayMsgCell = row.querySelector('.today-message-cell');
+    if (todayMsgCell) todayMsgCell.innerText = employeesData[idx].todayMessage;
     updateStatsUI();
 }
+
 document.getElementById('pdfUploadInput').onchange = function(e) {
     if (!isAdmin()) return;
     const file = e.target.files[0];
@@ -309,11 +327,11 @@ function closeLargePdf() {
     document.getElementById('pdfViewerFrame').src = '';
 }
 
-// ========== MODAL FUNCTIONS (Google Sheet Data) ==========
+// ========== MODAL FUNCTIONS ==========
 function renderModalTable() {
     const tbody = document.getElementById('modalTableBody');
     const admin = isAdmin();
-    if (!sheetData.length) { tbody.innerHTML = '<tr><td colspan="12" style="padding:40px;">No records. Click "Refresh & Load" first.<?td><tr>'; return; }
+    if (!sheetData.length) { tbody.innerHTML = '<tr><td colspan="11" style="padding:40px;">No records. Click "Refresh & Load" first.<?td></tr>'; return; }
     let html = '';
     sheetData.forEach((emp, idx) => {
         const isEditing = (admin && editingModalRowId === idx);
@@ -325,7 +343,6 @@ function renderModalTable() {
         else if (fresh.status === 'Upcoming') statusClass = 'status-upcoming';
         const depFmt = formatDateToYMD(fresh.departure), retFmt = formatDateToYMD(fresh.return);
         if (isEditing) {
-            // Edit mode: show input fields, upload button, and REMOVE PDF button if PDF exists
             let pdfSection = `<button class="action-btn upload-pdf-btn" onclick="uploadModalPdf(${idx})">📄 ${fresh.hasPdf ? 'Change PDF' : 'Upload'}</button>`;
             if (fresh.hasPdf) {
                 pdfSection += `<button class="action-btn delete-pdf-btn" onclick="deleteModalPdf(${idx})" style="background:#dc3545; color:white; margin-left:5px;">❌ Remove PDF</button>`;
@@ -341,15 +358,13 @@ function renderModalTable() {
                         <td><input type="number" id="modal_edit_tickets_${idx}" value="${fresh.ticketsTaken}" min="0" style="width:60px"></td>
                         <td>${pdfSection}</td>
                         <td><span class="${statusClass}">${fresh.status}</span></td>
-                        <td>${fresh.daysUntilDeparture}</td>
-                        <td>${fresh.daysAfterReturn}</td>
+                        <td class="today-message-cell">${escapeHtml(fresh.todayMessage)}</td>
                         <td class="modal-actions">
                             <button class="action-btn save-edit-btn" onclick="saveModalEdit(${idx})">💾 Save</button>
                             <button class="action-btn cancel-edit-btn" onclick="cancelModalEdit()">❌ Cancel</button>
                         </td>
-                      </tr>`;
+                      </td>`;
         } else {
-            // Normal view: only show PDF indicator and View PDF button (no delete PDF)
             let pdfHtml = fresh.hasPdf ? `<span style="color:#2e7d64;">✓ PDF</span><br><span style="font-size:9px;">${fresh.pdfName.substring(0,10)}</span>` : '-';
             html += `<tr>
                         <td>${idx+1}</td>
@@ -361,8 +376,7 @@ function renderModalTable() {
                         <td>${fresh.ticketsTaken}</td>
                         <td>${pdfHtml}</td>
                         <td><span class="${statusClass}">${fresh.status}</span></td>
-                        <td>${fresh.daysUntilDeparture}</td>
-                        <td>${fresh.daysAfterReturn}</td>
+                        <td class="today-message-cell">${escapeHtml(fresh.todayMessage)}</td>
                         <td class="modal-actions">
                             ${admin ? `<button class="action-btn edit-btn" onclick="startModalEdit(${idx})">✏️ Edit</button>` : ''}
                             ${fresh.hasPdf ? `<button class="action-btn view-pdf-btn" onclick="viewModalPdfLarge(${idx})">👁️ View PDF</button>` : ''}
@@ -399,7 +413,6 @@ function deleteModalRecord(id) {
         updateAnalytics();
     }
 }
-// Delete only the PDF from a modal record (called from edit mode)
 function deleteModalPdf(id) {
     if (!isAdmin()) return;
     if (confirm('Remove the uploaded PDF from this employee? The status will no longer be "Ticket Confirm".')) {
@@ -407,7 +420,7 @@ function deleteModalPdf(id) {
         sheetData[id].pdfName = '';
         sheetData[id].pdfBase64 = '';
         sheetData[id] = recalcRowFields(sheetData[id]);
-        renderModalTable(); // re-render to update edit row view
+        renderModalTable();
         showModalMessage('PDF removed. Click "Save All Changes" to sync with Google Sheet.', 'success');
         updateAnalytics();
     }
@@ -487,7 +500,7 @@ async function saveModalToGoogleSheet() {
     const payload = sheetData.map(e => ({
         employeeName: e.employeeName, remarks: e.remarks, departure: e.departure, return: e.return,
         totalDay: e.vacationDays, ticketsTaken: e.ticketsTaken, hasPdf: e.hasPdf, pdfName: e.pdfName,
-        pdfBase64: e.pdfBase64, status: e.status, afterVacWorkingDays: e.daysAfterReturn, remainingDays: e.daysUntilDeparture
+        pdfBase64: e.pdfBase64, status: e.status
     }));
     try {
         await fetch(GOOGLE_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
@@ -505,7 +518,7 @@ async function saveNewRecordsToSheet() {
     const all = [...existing, ...employeesData.map(e => ({
         employeeName: e.employeeName, remarks: e.remarks, departure: e.departure, return: e.return,
         totalDay: e.vacationDays, ticketsTaken: e.ticketsTaken, hasPdf: e.hasPdf, pdfName: e.pdfName,
-        pdfBase64: e.pdfBase64, status: e.status, afterVacWorkingDays: e.daysAfterReturn, remainingDays: e.daysUntilDeparture
+        pdfBase64: e.pdfBase64, status: e.status
     }))];
     try {
         await fetch(GOOGLE_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(all) });
