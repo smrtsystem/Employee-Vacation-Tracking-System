@@ -184,12 +184,12 @@ function updateAnalytics() {
     });
 }
 
-// ========== MAIN TABLE RENDER ==========
+// ========== MAIN TABLE RENDER (New Records Only) ==========
 function renderMainTable() {
     const tbody = document.getElementById('tableBody');
     const admin = isAdmin();
     if (!employeesData.length) {
-        tbody.innerHTML = `<tr><td colspan="12" style="text-align:center; padding:2.5rem;">Click "Add New Record" to add employee</td}</tr>`;
+        tbody.innerHTML = `<table><td colspan="12" style="text-align:center; padding:2.5rem;">Click "Add New Record" to add employee</td></tr>`;
         updateStatsUI();
         return;
     }
@@ -206,8 +206,8 @@ function renderMainTable() {
         const depFmt = formatDateToYMD(fresh.departure), retFmt = formatDateToYMD(fresh.return);
         html += `<tr data-idx="${idx}"><td>${idx+1}</td>`;
         if (admin) {
-            html += `<td><input type="text" class="emp-name" value="${escapeHtml(fresh.employeeName)}" placeholder="Name" data-idx="${idx}" style="width:140px"></table>
-                     <tr><input type="text" class="emp-remarks" value="${escapeHtml(fresh.remarks)}" placeholder="Remarks" data-idx="${idx}" style="width:150px"></td>
+            html += `<td><input type="text" class="emp-name" value="${escapeHtml(fresh.employeeName)}" placeholder="Name" data-idx="${idx}" style="width:140px"></td>
+                     <td><input type="text" class="emp-remarks" value="${escapeHtml(fresh.remarks)}" placeholder="Remarks" data-idx="${idx}" style="width:150px"></td>
                      <td><input type="date" class="emp-departure" value="${depFmt}" data-idx="${idx}"></td>
                      <td><input type="date" class="emp-return" value="${retFmt}" data-idx="${idx}"></td>`;
         } else {
@@ -245,9 +245,11 @@ function attachMainEvents() {
             if (!isNaN(idx)) { currentPdfIndex = idx; document.getElementById('pdfUploadInput').click(); }
         };
     });
-    document.querySelectorAll('.emp-name, .emp-remarks, .emp-departure, .emp-return, .emp-tickets').forEach(inp => {
+    const inputs = document.querySelectorAll('.emp-name, .emp-remarks, .emp-departure, .emp-return, .emp-tickets');
+    inputs.forEach(inp => {
         inp.onchange = () => updateMainRowCalculation(parseInt(inp.dataset.idx));
         inp.oninput = () => updateMainRowCalculation(parseInt(inp.dataset.idx));
+        inp.onblur = () => updateMainRowCalculation(parseInt(inp.dataset.idx));
     });
 }
 function updateMainRowCalculation(idx) {
@@ -311,7 +313,7 @@ function closeLargePdf() {
 function renderModalTable() {
     const tbody = document.getElementById('modalTableBody');
     const admin = isAdmin();
-    if (!sheetData.length) { tbody.innerHTML = '<tr><td colspan="12" style="padding:40px;">No records. Click "Refresh & Load" first.</td></tr>'; return; }
+    if (!sheetData.length) { tbody.innerHTML = '<tr><td colspan="12" style="padding:40px;">No records. Click "Refresh & Load" first.<?td><tr>'; return; }
     let html = '';
     sheetData.forEach((emp, idx) => {
         const isEditing = (admin && editingModalRowId === idx);
@@ -323,6 +325,12 @@ function renderModalTable() {
         else if (fresh.status === 'Upcoming') statusClass = 'status-upcoming';
         const depFmt = formatDateToYMD(fresh.departure), retFmt = formatDateToYMD(fresh.return);
         if (isEditing) {
+            // Edit mode: show input fields, upload button, and REMOVE PDF button if PDF exists
+            let pdfSection = `<button class="action-btn upload-pdf-btn" onclick="uploadModalPdf(${idx})">📄 ${fresh.hasPdf ? 'Change PDF' : 'Upload'}</button>`;
+            if (fresh.hasPdf) {
+                pdfSection += `<button class="action-btn delete-pdf-btn" onclick="deleteModalPdf(${idx})" style="background:#dc3545; color:white; margin-left:5px;">❌ Remove PDF</button>`;
+                pdfSection += `<div class="pdf-name-display">${fresh.pdfName.substring(0,10)}</div>`;
+            }
             html += `<tr style="background:#fff3cd;">
                         <td>${idx+1}</td>
                         <td><input type="text" id="modal_edit_name_${idx}" value="${escapeHtml(fresh.employeeName)}" style="width:120px"></td>
@@ -331,7 +339,7 @@ function renderModalTable() {
                         <td><input type="date" id="modal_edit_return_${idx}" value="${retFmt}"></td>
                         <td>${fresh.vacationDays}</td>
                         <td><input type="number" id="modal_edit_tickets_${idx}" value="${fresh.ticketsTaken}" min="0" style="width:60px"></td>
-                        <td><button class="action-btn upload-pdf-btn" onclick="uploadModalPdf(${idx})">📄 ${fresh.hasPdf ? 'Change PDF' : 'Upload'}</button>${fresh.pdfName ? `<div class="pdf-name-display">${fresh.pdfName.substring(0,10)}</div>` : ''}</td>
+                        <td>${pdfSection}</td>
                         <td><span class="${statusClass}">${fresh.status}</span></td>
                         <td>${fresh.daysUntilDeparture}</td>
                         <td>${fresh.daysAfterReturn}</td>
@@ -341,6 +349,8 @@ function renderModalTable() {
                         </td>
                       </tr>`;
         } else {
+            // Normal view: only show PDF indicator and View PDF button (no delete PDF)
+            let pdfHtml = fresh.hasPdf ? `<span style="color:#2e7d64;">✓ PDF</span><br><span style="font-size:9px;">${fresh.pdfName.substring(0,10)}</span>` : '-';
             html += `<tr>
                         <td>${idx+1}</td>
                         <td>${escapeHtml(fresh.employeeName||'-')}</td>
@@ -349,14 +359,14 @@ function renderModalTable() {
                         <td>${fresh.return||'-'}</td>
                         <td>${fresh.vacationDays}</td>
                         <td>${fresh.ticketsTaken}</td>
-                        <td>${fresh.hasPdf ? `<span style="color:#2e7d64;">✓ PDF</span><br><span style="font-size:9px;">${fresh.pdfName.substring(0,10)}</span>` : '-'}</td>
+                        <td>${pdfHtml}</td>
                         <td><span class="${statusClass}">${fresh.status}</span></td>
                         <td>${fresh.daysUntilDeparture}</td>
                         <td>${fresh.daysAfterReturn}</td>
                         <td class="modal-actions">
                             ${admin ? `<button class="action-btn edit-btn" onclick="startModalEdit(${idx})">✏️ Edit</button>` : ''}
                             ${fresh.hasPdf ? `<button class="action-btn view-pdf-btn" onclick="viewModalPdfLarge(${idx})">👁️ View PDF</button>` : ''}
-                            ${admin ? `<button class="action-btn delete-btn" onclick="deleteModalRecord(${idx})">🗑️ Delete</button>` : ''}
+                            ${admin ? `<button class="action-btn delete-btn" onclick="deleteModalRecord(${idx})">🗑️ Delete Record</button>` : ''}
                         </td>
                       </tr>`;
         }
@@ -386,7 +396,20 @@ function deleteModalRecord(id) {
         sheetData.splice(id, 1);
         renderModalTable();
         showModalMessage('Record deleted. Click "Save All Changes" to sync with Google Sheet.', 'success');
-        updateAnalytics(); // update charts immediately
+        updateAnalytics();
+    }
+}
+// Delete only the PDF from a modal record (called from edit mode)
+function deleteModalPdf(id) {
+    if (!isAdmin()) return;
+    if (confirm('Remove the uploaded PDF from this employee? The status will no longer be "Ticket Confirm".')) {
+        sheetData[id].hasPdf = false;
+        sheetData[id].pdfName = '';
+        sheetData[id].pdfBase64 = '';
+        sheetData[id] = recalcRowFields(sheetData[id]);
+        renderModalTable(); // re-render to update edit row view
+        showModalMessage('PDF removed. Click "Save All Changes" to sync with Google Sheet.', 'success');
+        updateAnalytics();
     }
 }
 function uploadModalPdf(id) { if (isAdmin()) { currentModalPdfIndex = id; document.getElementById('modalPdfUploadInput').click(); } }
@@ -525,6 +548,7 @@ function initializeApp() {
     window.uploadModalPdf = uploadModalPdf;
     window.viewModalPdfLarge = viewModalPdfLarge;
     window.deleteModalRecord = deleteModalRecord;
+    window.deleteModalPdf = deleteModalPdf;
     employeesData = [];
     renderMainTable();
     updateSyncLabel('Ready');
