@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Expat Vacation System ✅</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Chart.js for analytics charts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+<!-- Login Modal -->
+<div id="loginModal" class="login-modal">
+    <div class="login-card">
+        <i class="fas fa-user-lock" style="font-size: 48px; color: #1e6f5c; margin-bottom: 15px;"></i>
+        <h2>Login</h2>
+        <input type="text" id="username" placeholder="Username" autocomplete="off">
+        <input type="password" id="password" placeholder="Password">
+        <button onclick="attemptLogin()">Login</button>
+        <div id="loginError" class="error-msg"></div>
+        <div style="margin-top: 20px; font-size: 12px; color: #666;">
+            <p><strong>Developed by BBC</strong></p>
+            <p>Employee Vacation Tracking System</p>
+        </div>
+    </div>
+</div>
+
+<div class="dashboard-container" id="mainContainer" style="display: none;">
+    <div class="company-header">
+        <div class="title-section">
+            <h1>SKYINFOTECH <span>LTD.</span></h1>
+            <div class="tagline"><i class="fas fa-cloud-upload-alt"></i> Google Sheets Integration · Smart HR Management</div>
+        </div>
+        <div class="stats-badge" id="liveStats">
+            <div class="stat-item"><i class="fas fa-users"></i> <span id="totalEmployeesStat">0</span> New Records</div>
+            <div class="stat-item"><i class="fas fa-calendar-day"></i> <span id="totalVacationDaysStat">0</span> Total Vacation Days</div>
+            <div class="stat-item"><i class="fas fa-ticket-alt"></i> <span id="totalTicketsStat">0</span> Tickets</div>
+            <div class="stat-item"><i class="fas fa-check-circle"></i> <span id="confirmedStat">0</span> Confirmed</div>
+            <div class="stat-item"><i class="fas fa-sync-alt"></i> <span id="syncStatusLabel">Ready</span></div>
+        </div>
+    </div>
+
+    <!-- User Info Bar -->
+    <div class="login-section">
+        <div class="user-info">
+            <i class="fas fa-user-circle"></i>
+            <span>Logged in as: <span id="currentUser" class="user-role"></span></span>
+            <i class="fas fa-tag"></i>
+            <span>Role: <span id="currentRole" class="user-role"></span></span>
+        </div>
+        <button class="logout-btn" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+    </div>
+
+    <!-- Hero Section with Main Title -->
+    <div class="hero-section">
+        <div class="hero-title">
+            <i class="fas fa-umbrella-beach"></i> Employee Vacation Tracking System
+        </div>
+        <div class="hero-subtitle">
+            <i class="fas fa-calendar-alt"></i> Manage employee leaves, track vacation days, and upload ticket confirmations
+        </div>
+    </div>
+
+    <div class="google-section">
+        <i class="fab fa-google" style="color: #4285f4; font-size: 1.3rem;"></i>
+        <div class="url-badge">
+            <i class="fas fa-link"></i> Connected to Google Apps Script
+        </div>
+        <button class="btn btn-info" id="viewLoadedDataBtn"><i class="fas fa-eye"></i> 👁️ View Loaded Data</button>
+        <button class="btn btn-warning" id="refreshDataBtn"><i class="fas fa-refresh"></i> Refresh & Load</button>
+        <button class="btn btn-success" id="syncToGoogleBtn"><i class="fas fa-upload"></i> Save New Records to Sheet</button>
+        <button class="btn btn-outline" id="testConnectionBtn"><i class="fas fa-plug"></i> Test Connection</button>
+    </div>
+
+    <div class="action-bar">
+        <div class="btn-group">
+            <button class="btn btn-primary" id="addNewRowBtn"><i class="fas fa-plus-circle"></i> Add New Record</button>
+        </div>
+        <div>
+            <button class="btn btn-danger-outline" id="clearAllBtn"><i class="fas fa-trash-alt"></i> Clear All New Records</button>
+        </div>
+    </div>
+
+    <div class="table-wrapper">
+        <table class="record-table" id="employeeTable">
+            <thead>
+                <tr>
+                    <th>S/N</th>
+                    <th>Employee Name</th>
+                    <th>Remarks</th>
+                    <th>Departure Date</th>
+                    <th>Return Date</th>
+                    <th>Vacation Days</th>
+                    <th>Tickets Taken</th>
+                    <th>PDF Ticket</th>
+                    <th>Status</th>
+                    <th>Days Until Departure</th>
+                    <th>Days After Return</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+                <tr><td colspan="12" style="text-align:center; padding: 2.5rem;">Click "Refresh & Load" to fetch data from Google Sheet</td}</tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="footer-note">
+        <span><i class="fas fa-file-pdf"></i> Upload PDF → Status changes to "Ticket Confirm"</span>
+        <span><i class="fas fa-eye"></i> Click "View Loaded Data" to see Google Sheet records</span>
+        <span><i class="fas fa-save"></i> Add new records and click "Save New Records to Sheet"</span>
+        <span><i class="fas fa-chart-line"></i> Analytics auto‑refresh when data loads</span>
+    </div>
+
+    <!-- ========== ANALYTICS DASHBOARD (medium size, before footer) ========== -->
+    <div class="analytics-section">
+        <div class="section-title">
+            <i class="fas fa-chart-line"></i> Analytics Dashboard
+            <button class="btn-refresh-analytics" id="refreshAnalyticsBtn" title="Refresh charts"><i class="fas fa-sync-alt"></i></button>
+        </div>
+        
+        <!-- Summary Cards -->
+        <div class="analytics-cards">
+            <div class="analytics-card">
+                <i class="fas fa-users"></i>
+                <div class="card-info">
+                    <span class="card-label">Total Employees</span>
+                    <span class="card-value" id="analyticsTotalEmployees">0</span>
+                </div>
+            </div>
+            <div class="analytics-card">
+                <i class="fas fa-calendar-week"></i>
+                <div class="card-info">
+                    <span class="card-label">Total Vacation Days</span>
+                    <span class="card-value" id="analyticsTotalVacationDays">0</span>
+                </div>
+            </div>
+            <div class="analytics-card">
+                <i class="fas fa-chart-simple"></i>
+                <div class="card-info">
+                    <span class="card-label">Avg. Vacation Days</span>
+                    <span class="card-value" id="analyticsAvgVacationDays">0</span>
+                </div>
+            </div>
+            <div class="analytics-card">
+                <i class="fas fa-hourglass-half"></i>
+                <div class="card-info">
+                    <span class="card-label">Upcoming Trips</span>
+                    <span class="card-value" id="analyticsUpcoming">0</span>
+                </div>
+            </div>
+            <div class="analytics-card">
+                <i class="fas fa-plane"></i>
+                <div class="card-info">
+                    <span class="card-label">Ongoing Trips</span>
+                    <span class="card-value" id="analyticsOngoing">0</span>
+                </div>
+            </div>
+            <div class="analytics-card">
+                <i class="fas fa-check-circle"></i>
+                <div class="card-info">
+                    <span class="card-label">Ticket Confirmed</span>
+                    <span class="card-value" id="analyticsConfirmed">0</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Row -->
+        <div class="charts-row">
+            <div class="chart-box">
+                <h4><i class="fas fa-chart-bar"></i> Vacation Days by Month</h4>
+                <canvas id="monthlyChart" width="400" height="200"></canvas>
+            </div>
+            <div class="chart-box">
+                <h4><i class="fas fa-chart-pie"></i> Status Distribution</h4>
+                <canvas id="statusChart" width="400" height="200"></canvas>
+            </div>
+        </div>
+        <div class="analytics-note">
+            <i class="fas fa-info-circle"></i> Analytics based on data loaded from Google Sheet.
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="main-footer" id="mainFooter" style="display: none;">
+    <div class="footer-content">
+        <div class="footer-copyright">
+            <i class="fas fa-copyright"></i> 2026 Skyinfotech Ltd. All rights reserved.
+        </div>
+        <div class="footer-links">
+            <a href="#"><i class="fas fa-envelope"></i> hr@skyinfotech.com</a>
+            <a href="#"><i class="fas fa-phone"></i> 0000000000</a>
+            <a href="#"><i class="fas fa-globe"></i> www.skyinfotech.com</a>
+        </div>
+        <div class="footer-social">
+            <i class="fab fa-linkedin"></i>
+            <i class="fab fa-twitter"></i>
+            <i class="fab fa-facebook"></i>
+            <i class="fab fa-instagram"></i>
+        </div>
+    </div>
+</footer>
+
+<!-- Modal Popup for Viewing/Editing Sheet Data -->
+<div id="sheetModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3><i class="fas fa-table"></i> Employee Records from Google Sheet</h3>
+            <span class="modal-close" id="closeModalBtn">&times;</span>
+        </div>
+        <div class="modal-body">
+            <div id="modalMessage" style="padding: 10px; margin-bottom: 10px; display: none;"></div>
+            <div style="overflow-x: auto;">
+                <table class="modal-table" id="modalTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Employee Name</th>
+                            <th>Remarks</th>
+                            <th>Departure</th>
+                            <th>Return</th>
+                            <th>Vacation Days</th>
+                            <th>Tickets</th>
+                            <th>PDF</th>
+                            <th>Status</th>
+                            <th>Days Until</th>
+                            <th>Days After</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="modalTableBody">
+                        <tr><td colspan="12" style="text-align:center; padding:40px;">Click "Refresh & Load" first</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div style="margin-top: 20px; text-align: right;">
+                <button class="btn btn-success" id="saveModalChangesBtn" style="background:#28a745;">💾 Save All Changes</button>
+                <button class="btn btn-outline" id="closeModalBtn2">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- PDF Viewer Modal -->
+<div id="pdfViewerModal" class="pdf-modal">
+    <div class="pdf-modal-content">
+        <div class="pdf-modal-header">
+            <h3><i class="fas fa-file-pdf"></i> <span id="pdfViewerTitle">PDF Ticket Viewer</span></h3>
+            <span class="pdf-modal-close" id="closePdfViewerModal">&times;</span>
+        </div>
+        <div class="pdf-modal-body">
+            <iframe id="pdfViewerFrame" class="pdf-viewer-frame"></iframe>
+        </div>
+        <div class="pdf-info">
+            <span id="pdfFileNameDisplay"></span>
+            <span>Use mouse wheel to zoom | Click and drag to pan</span>
+        </div>
+    </div>
+</div>
+
+<input type="file" id="pdfUploadInput" accept=".pdf" style="display: none;">
+<input type="file" id="modalPdfUploadInput" accept=".pdf" style="display: none;">
+
+<script src="script.js"></script>
+</body>
+</html>
