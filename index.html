@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Expat Vacation System ✅</title>
+    <title>Employee Vacation System ✅</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- Chart.js for analytics charts -->
@@ -16,13 +16,16 @@
     <div class="login-card">
         <i class="fas fa-user-lock" style="font-size: 48px; color: #1e6f5c; margin-bottom: 15px;"></i>
         <h2>Login</h2>
-        <input type="text" id="username" placeholder="Username" autocomplete="off">
-        <input type="password" id="password" placeholder="Password">
-        <button onclick="attemptLogin()">Login</button>
+        <form id="loginForm" onsubmit="event.preventDefault(); attemptLogin();">
+            <input type="text" id="username" placeholder="Username" autocomplete="off">
+            <input type="password" id="password" placeholder="Password">
+            <button type="submit">Login</button>
+        </form>
         <div id="loginError" class="error-msg"></div>
         <div style="margin-top: 20px; font-size: 12px; color: #666;">
-            <p><strong>Developed by BBC</strong></p>
-            <p>Employee Vacation Tracking System</p>
+            <p><strong>Crafted by BBC</strong></p>
+            <p>(Vacation Management System)</p>
+            <p>Namaste 🙏</p>
         </div>
     </div>
 </div>
@@ -102,7 +105,7 @@
                 </tr>
             </thead>
             <tbody id="tableBody">
-                <tr><td colspan="12" style="text-align:center; padding: 2.5rem;">Click "Refresh & Load" to fetch data from Google Sheet</td}</tr>
+                <tr><td colspan="12" style="text-align:center; padding: 2.5rem;">Click "Refresh & Load" to fetch data from Google Sheet</td}</td>
             </tbody>
         </table>
     </div>
@@ -192,7 +195,7 @@
         </div>
         <div class="footer-links">
             <a href="#"><i class="fas fa-envelope"></i> hr@skyinfotech.com</a>
-            <a href="#"><i class="fas fa-phone"></i> 0000000000</a>
+            <a href="#"><i class="fas fa-phone"></i> +000000000</a>
             <a href="#"><i class="fas fa-globe"></i> www.skyinfotech.com</a>
         </div>
         <div class="footer-social">
@@ -232,7 +235,7 @@
                         </tr>
                     </thead>
                     <tbody id="modalTableBody">
-                        <tr><td colspan="12" style="text-align:center; padding:40px;">Click "Refresh & Load" first</td></tr>
+                        <tr><td colspan="12" style="text-align:center; padding:40px;">Click "Refresh & Load" first</td}</tr>
                     </tbody>
                 </table>
             </div>
