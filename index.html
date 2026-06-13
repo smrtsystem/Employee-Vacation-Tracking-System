@@ -10,157 +10,385 @@
 </head>
 <body>
 
-<!-- Login Modal -->
-<div id="loginModal" class="login-modal">
-    <div class="login-card">
-        <div class="login-icon"><i class="fas fa-plane-departure"></i></div>
-        <h2>Welcome Back</h2>
-        <p class="login-subtitle">Employee Vacation Tracking System</p>
-        <form id="loginForm" onsubmit="event.preventDefault(); attemptLogin();">
-            <div class="input-group"><i class="fas fa-user"></i><input type="text" id="username" placeholder="Username" autocomplete="off"></div>
-            <div class="input-group"><i class="fas fa-lock"></i><input type="password" id="password" placeholder="Password"></div>
-            <button type="submit" id="loginBtn">Login <i class="fas fa-arrow-right"></i></button>
-        </form>
-        <div id="loginError" class="error-msg"></div>
-        <div class="demo-credentials"><p><i class="fas fa-info-circle"></i> Crafted by BBC:</p><p><span class="demo-badge">Admin</span> Reach out to the respective person.</p><p><span class="demo-badge">User</span> Reach out to the respective person.</p></div>
-    </div>
-</div>
-
-<!-- Airplane Animation -->
-<div id="airplaneAnimation" class="airplane-overlay">
-    <div class="airplane-container">
-        <div class="airplane"><i class="fas fa-plane"></i></div>
-        <div class="clouds">
-            <div class="cloud cloud1"><i class="fas fa-cloud"></i></div>
-            <div class="cloud cloud2"><i class="fas fa-cloud"></i></div>
-            <div class="cloud cloud3"><i class="fas fa-cloud"></i></div>
+    <div id="loginModal" class="login-modal">
+        <div class="login-card">
+            <div class="login-icon">
+                <i class="fas fa-plane-departure"></i>
+            </div>
+            <h2>Welcome Back</h2>
+            <p class="login-subtitle">Employee Vacation Tracking System</p>
+            
+            <form id="loginForm" onsubmit="event.preventDefault(); attemptLogin();">
+                <div class="input-group">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="username" placeholder="Username" autocomplete="off">
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="password" placeholder="Password">
+                </div>
+                <button type="submit" id="loginBtn">Login <i class="fas fa-arrow-right"></i></button>
+            </form>
+            
+            <div id="loginError" class="error-msg"></div>
+            
+            <div class="demo-credentials">
+                <p><i class="fas fa-info-circle"></i> Crafted by BBC:</p>
+                <p><span class="demo-badge">Admin</span> Reach out to the respective person.</p>
+                <p><span class="demo-badge">User</span> Reach out to the respective person.</p>
+            </div>
         </div>
-        <div class="loading-text">Taking off to Dashboard...</div>
     </div>
-</div>
 
-<div class="dashboard-container" id="mainContainer" style="display: none;">
-    <div class="company-header">
-        <div class="title-section">
-            <h1>SKYINFOTECH <span>LTD.</span></h1>
-            <div class="tagline"><i class="fas fa-cloud-upload-alt"></i> Advanced Data Integration and Smart Management System</div>
+    <div id="airplaneAnimation" class="airplane-overlay">
+        <div class="airplane-container">
+            <div class="airplane">
+                <i class="fas fa-plane"></i>
+            </div>
+            <div class="clouds">
+                <div class="cloud cloud1"><i class="fas fa-cloud"></i></div>
+                <div class="cloud cloud2"><i class="fas fa-cloud"></i></div>
+                <div class="cloud cloud3"><i class="fas fa-cloud"></i></div>
+            </div>
+            <div class="loading-text">Taking off to Dashboard...</div>
         </div>
-        <div class="theme-toggle">
-            <button class="theme-btn" id="themeToggleBtn" onclick="toggleTheme()">
-                <i class="fas fa-moon"></i> <span id="themeText">Dark Mode</span>
+    </div>
+
+    <div class="dashboard-container" id="mainContainer" style="display: none;">
+        
+        <div class="company-header">
+            <div class="title-section">
+                <h1>SKYINFOTECH <span>LTD.</span></h1>
+                <div class="tagline">
+                    <i class="fas fa-cloud-upload-alt"></i> Advanced Data Integration and Smart Management System
+                </div>
+            </div>
+            <div class="theme-toggle">
+                <button class="theme-btn" id="themeToggleBtn" onclick="toggleTheme()">
+                    <i class="fas fa-moon"></i> <span id="themeText">Dark Mode</span>
+                </button>
+            </div>
+            <div class="stats-badge" id="liveStats">
+                <div class="stat-item"><i class="fas fa-users"></i> <span id="totalEmployeesStat">0</span> Total Records</div>
+                <div class="stat-item"><i class="fas fa-calendar-day"></i> <span id="totalVacationDaysStat">0</span> Total Vacation Days</div>
+                <div class="stat-item"><i class="fas fa-ticket-alt"></i> <span id="totalTicketsStat">0</span> Tickets</div>
+                <div class="stat-item"><i class="fas fa-check-circle"></i> <span id="confirmedStat">0</span> Confirmed</div>
+                <div class="stat-item"><i class="fas fa-sync-alt"></i> <span id="syncStatusLabel">Ready</span></div>
+            </div>
+        </div>
+
+        <div class="login-section">
+            <div class="user-info">
+                <i class="fas fa-user-circle"></i>
+                <span>Logged in as: <span id="currentUser"></span></span>
+                <i class="fas fa-tag"></i>
+                <span>Role: <span id="currentRole"></span></span>
+            </div>
+            <button class="logout-btn" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i> Logout
             </button>
         </div>
-        <div class="stats-badge" id="liveStats">
-            <div class="stat-item"><i class="fas fa-users"></i> <span id="totalEmployeesStat">0</span> Total Records</div>
-            <div class="stat-item"><i class="fas fa-calendar-day"></i> <span id="totalVacationDaysStat">0</span> Total Vacation Days</div>
-            <div class="stat-item"><i class="fas fa-ticket-alt"></i> <span id="totalTicketsStat">0</span> Tickets</div>
-            <div class="stat-item"><i class="fas fa-check-circle"></i> <span id="confirmedStat">0</span> Confirmed</div>
-            <div class="stat-item"><i class="fas fa-sync-alt"></i> <span id="syncStatusLabel">Ready</span></div>
-        </div>
-    </div>
-    <div class="login-section"><div class="user-info"><i class="fas fa-user-circle"></i><span>Logged in as: <span id="currentUser"></span></span><i class="fas fa-tag"></i><span>Role: <span id="currentRole"></span></span></div><button class="logout-btn" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button></div>
-    <div class="hero-section"><div class="hero-title"><i class="fas fa-umbrella-beach"></i> Employee Vacation Tracking System</div><div class="hero-subtitle"><i class="fas fa-calendar-alt"></i> Manage employee leaves, track vacation days, and upload ticket confirmations</div></div>
-    <div class="google-section"><div class="btn-group-top">
-        <button class="btn btn-primary" id="addNewRowBtn"><i class="fas fa-plus-circle"></i>  Add Multiple Records</button>
-        <button class="btn btn-info" id="viewLoadedDataBtn"><i class="fas fa-eye"></i> View Employee Records</button>
-        <button class="btn btn-purple" id="monthlySummaryBtn"><i class="fas fa-calendar-month"></i> 📅 Monthly Travel Overview</button>
-        <button class="btn btn-warning" id="refreshDataBtn"><i class="fas fa-refresh"></i> Refresh Data</button>
-        <button class="btn btn-primary" id="openGoogleSheetBtn"><i class="fas fa-database"></i> View Stored Records</button>
-        <button class="btn btn-outline" id="testConnectionBtn"><i class="fas fa-plug"></i> Test Connection</button>
-    </div></div>
 
-    <div class="analytics-section"><div class="section-title"><i class="fas fa-chart-line"></i> Analytics Dashboard <span style="font-size: 0.65rem; margin-left: 8px;"><i class="fas fa-sync-alt"></i> Auto-refreshes every 30 seconds</span></div>
-        <div class="analytics-cards"><div class="analytics-card"><i class="fas fa-users"></i><div class="card-info"><span class="card-label">Total Employees</span><span class="card-value" id="analyticsTotalEmployees">0</span></div></div><div class="analytics-card"><i class="fas fa-calendar-week"></i><div class="card-info"><span class="card-label">Total Vacation Days</span><span class="card-value" id="analyticsTotalVacationDays">0</span></div></div><div class="analytics-card"><i class="fas fa-chart-simple"></i><div class="card-info"><span class="card-label">Avg. Vacation Days</span><span class="card-value" id="analyticsAvgVacationDays">0</span></div></div><div class="analytics-card"><i class="fas fa-hourglass-half"></i><div class="card-info"><span class="card-label">Upcoming Trips</span><span class="card-value" id="analyticsUpcoming">0</span></div></div><div class="analytics-card"><i class="fas fa-plane"></i><div class="card-info"><span class="card-label">Ongoing Trips</span><span class="card-value" id="analyticsOngoing">0</span></div></div><div class="analytics-card"><i class="fas fa-check-circle"></i><div class="card-info"><span class="card-label">Ticket Confirmed</span><span class="card-value" id="analyticsConfirmed">0</span></div></div></div>
-        <div class="charts-row"><div class="chart-box"><h4><i class="fas fa-chart-bar"></i> Vacation Days by Month</h4><canvas id="monthlyChart" width="400" height="250"></canvas></div><div class="chart-box"><h4><i class="fas fa-chart-pie"></i> Status Distribution</h4><canvas id="statusChart" width="400" height="250"></canvas></div></div>
-        <div class="analytics-note"><i class="fas fa-info-circle"></i> Real-time insights powered by live Google Sheet data.</div>
-    </div>
-    <div class="footer-note"><span><i class="fas fa-file-pdf"></i> Upload PDF → Status changes to "Ticket Confirm"</span><span><i class="fas fa-eye"></i> Click "View Employee Data" to see records</span><span><i class="fas fa-save"></i> Records are automatically saved to Google Sheet</span><span><i class="fas fa-chart-line"></i> Analytics auto‑refresh when data loads</span></div>
-</div>
-
-<footer class="main-footer" id="mainFooter" style="display: none;"><div class="footer-content"><div class="footer-copyright"><i class="fas fa-copyright"></i> 2026 Skyinfotech Ltd. All rights reserved.</div><div class="footer-links"><a href="#"><i class="fas fa-envelope"></i> hr@skyinfotech.com</a><a href="#"><i class="fas fa-phone"></i> +1 234 567 890</a><a href="#"><i class="fas fa-globe"></i> www.skyinfotech.com</a></div><div class="footer-social"><i class="fab fa-linkedin"></i><i class="fab fa-twitter"></i><i class="fab fa-facebook"></i><i class="fab fa-instagram"></i></div></div></footer>
-
-<!-- ADD MULTIPLE RECORDS MODAL - Fixed Status Column -->
-<div id="addRecordModal" class="modal">
-    <div class="modal-content" style="width: 92%; max-width: 1400px;">
-        <div class="modal-header"><h3><i class="fas fa-plus-circle"></i> Add Multiple Employee Records</h3><span class="modal-close" id="closeAddModal">&times;</span></div>
-        <div class="modal-body">
-            <div id="addModalMessage" style="padding: 8px; margin-bottom: 8px; display: none;"></div>
-            <div style="overflow-x: auto; max-height: 65vh;">
-                <table class="modal-table" id="addRecordsTable">
-                    <thead>
-                        <tr><th style="width: 40px;">#</th><th style="width: 180px;">Employee Name *</th><th style="width: 150px;">Remarks</th><th style="width: 130px;">Departure Date</th><th style="width: 130px;">Return Date</th><th style="width: 80px;">Tickets</th><th style="width: 110px;">PDF Upload</th><th style="width: 70px;">Vac. Days</th><th style="width: 120px;">Status</th><th style="width: 200px;">Message</th><th style="width: 70px;">Actions</th></tr>
-                    </thead>
-                    <tbody id="addRecordsTableBody">
-                        <tr id="tempRow0"><td style="font-weight:bold; background:#f0f0f5;">1</td><td><input type="text" class="temp-emp-name" placeholder="Employee name" style="width:100%;"></td><td><input type="text" class="temp-emp-remarks" placeholder="Remarks" style="width:100%;"></td><td><input type="date" class="temp-emp-departure" style="width:100%;" onchange="updateTempPreview(0)"></td><td><input type="date" class="temp-emp-return" style="width:100%;" onchange="updateTempPreview(0)"></td><td><input type="number" class="temp-emp-tickets" value="0" min="0" style="width:70px;" onchange="updateTempPreview(0)"></td><td><button class="pdf-upload-btn-small" onclick="uploadTempPdf(0)">📄 Upload PDF</button><div class="temp-pdf-name" style="font-size:9px; margin-top:3px;"></div></td><td class="calc-vacation" id="tempVacation_0">0</td><td id="tempStatus_0" class="status-badge status-draft">Draft</td><td class="temp-preview-message" id="tempMessage_0" style="font-size: 0.65rem; max-width: 180px; word-break: break-word;">-</td><td><button class="action-btn delete-btn" onclick="removeTempRow(0)" style="background:#dc3545;">🗑️</button></td></tr>
-                    </tbody>
-                </table>
+        <div class="hero-section">
+            <div class="hero-title">
+                <i class="fas fa-umbrella-beach"></i> Employee Vacation Tracking System
             </div>
-            <div style="display: flex; gap: 12px; margin-top: 20px; justify-content: center;">
-                <button class="btn btn-primary" id="addRowModalBtn"><i class="fas fa-plus"></i> Add Row</button>
-                <button class="btn btn-success" id="saveAllModalBtn"><i class="fas fa-save"></i> Save All Records</button>
-                <button class="btn btn-outline" id="cancelModalBtn"><i class="fas fa-times"></i> Cancel</button>
+            <div class="hero-subtitle">
+                <i class="fas fa-calendar-alt"></i> Manage employee leaves, track vacation days, and upload ticket confirmations
             </div>
         </div>
-    </div>
-</div>
 
-<!-- VIEW EMPLOYEE DATA MODAL -->
-<div id="sheetModal" class="modal">
-    <div class="modal-content" style="width: 92%; max-width: 1400px;">
-        <div class="modal-header"><h3><i class="fas fa-table"></i> ✈️ Employee Flight Ticket Confirmation Records</h3><span class="modal-close" id="closeModalBtn">&times;</span></div>
-        <div class="modal-body">
-            <div id="modalMessage" style="padding: 8px; margin-bottom: 8px; display: none;"></div>
-            <div style="overflow-x: auto; max-height: 65vh;">
-                <table class="modal-table" id="modalTable">
-                    <thead>
-                        <tr><th>ID</th><th>Employee</th><th>Remarks</th><th>Departure</th><th>Return</th><th>Vac. Days</th><th>Tickets</th><th>PDF</th><th>Status</th><th>Message</th><th>Actions</th></tr>
-                    </thead>
-                    <tbody id="modalTableBody"><tr><td colspan="11" style="text-align:center; padding:50px;">Click "Refresh Data" first</td></tr></tbody>
-                </table>
+        <div class="google-section">
+            <div class="btn-group-top">
+                <button class="btn btn-primary" id="addNewRowBtn"><i class="fas fa-plus-circle"></i> Add Multiple Records</button>
+                <button class="btn btn-info" id="viewLoadedDataBtn"><i class="fas fa-eye"></i> View Employee Records</button>
+                <button class="btn btn-purple" id="monthlySummaryBtn"><i class="fas fa-calendar-month"></i> 📅 Monthly Travel Overview</button>
+                <button class="btn btn-warning" id="refreshDataBtn"><i class="fas fa-refresh"></i> Refresh Data</button>
+                <button class="btn btn-primary" id="openGoogleSheetBtn"><i class="fas fa-database"></i> View Stored Records</button>
+                <button class="btn btn-outline" id="testConnectionBtn"><i class="fas fa-plug"></i> Test Connection</button>
             </div>
-            <div style="margin-top: 20px; text-align: right;">
-                <button class="btn btn-success" id="saveModalChangesBtn">💾 Save All Changes</button>
-                <button class="btn btn-outline" id="closeModalBtn2">Close</button>
+        </div>
+
+        <div class="analytics-section">
+            <div class="section-title">
+                <i class="fas fa-chart-line"></i> Analytics Dashboard 
+                <span style="font-size: 0.65rem; margin-left: 8px;">
+                    <i class="fas fa-sync-alt"></i> Auto-refreshes every 30 seconds
+                </span>
+            </div>
+            
+            <div class="analytics-cards">
+                <div class="analytics-card">
+                    <i class="fas fa-users"></i>
+                    <div class="card-info">
+                        <span class="card-label">Total Employees</span>
+                        <span class="card-value" id="analyticsTotalEmployees">0</span>
+                    </div>
+                </div>
+                <div class="analytics-card">
+                    <i class="fas fa-calendar-week"></i>
+                    <div class="card-info">
+                        <span class="card-label">Total Vacation Days</span>
+                        <span class="card-value" id="analyticsTotalVacationDays">0</span>
+                    </div>
+                </div>
+                <div class="analytics-card">
+                    <i class="fas fa-chart-simple"></i>
+                    <div class="card-info">
+                        <span class="card-label">Avg. Vacation Days</span>
+                        <span class="card-value" id="analyticsAvgVacationDays">0</span>
+                    </div>
+                </div>
+                <div class="analytics-card">
+                    <i class="fas fa-hourglass-half"></i>
+                    <div class="card-info">
+                        <span class="card-label">Upcoming Trips</span>
+                        <span class="card-value" id="analyticsUpcoming">0</span>
+                    </div>
+                </div>
+                <div class="analytics-card">
+                    <i class="fas fa-plane"></i>
+                    <div class="card-info">
+                        <span class="card-label">Ongoing Trips</span>
+                        <span class="card-value" id="analyticsOngoing">0</span>
+                    </div>
+                </div>
+                <div class="analytics-card">
+                    <i class="fas fa-check-circle"></i>
+                    <div class="card-info">
+                        <span class="card-label">Ticket Confirmed</span>
+                        <span class="card-value" id="analyticsConfirmed">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="charts-row">
+                <div class="chart-box">
+                    <h4><i class="fas fa-chart-bar"></i> Vacation Days by Month</h4>
+                    <canvas id="monthlyChart" width="400" height="250"></canvas>
+                </div>
+                <div class="chart-box">
+                    <h4><i class="fas fa-chart-pie"></i> Status Distribution</h4>
+                    <canvas id="statusChart" width="400" height="250"></canvas>
+                </div>
+            </div>
+            
+            <div class="analytics-note">
+                <i class="fas fa-info-circle"></i> Real-time insights powered by live Google Sheet data.
+            </div>
+        </div>
+
+        <div class="footer-note">
+            <span><i class="fas fa-file-pdf"></i> Upload PDF → Status changes to "Ticket Confirm"</span>
+            <span><i class="fas fa-eye"></i> Click "View Employee Data" to see records</span>
+            <span><i class="fas fa-save"></i> Records are automatically saved to Google Sheet</span>
+            <span><i class="fas fa-chart-line"></i> Analytics auto‑refresh when data loads</span>
+        </div>
+    </div>
+
+    <footer class="main-footer" id="mainFooter" style="display: none;">
+        <div class="footer-content">
+            <div class="footer-copyright">
+                <i class="fas fa-copyright"></i> 2026 Skyinfotech Ltd. All rights reserved.
+            </div>
+            <div class="footer-links">
+                <a href="mailto:hr@skyinfotech.com"><i class="fas fa-envelope"></i> hr@skyinfotech.com</a>
+                <a href="tel:+1234567890"><i class="fas fa-phone"></i> +1 234 567 890</a>
+                <a href="https://www.skyinfotech.com" target="_blank"><i class="fas fa-globe"></i> www.skyinfotech.com</a>
+            </div>
+            <div class="footer-social">
+                <i class="fab fa-linkedin"></i>
+                <i class="fab fa-twitter"></i>
+                <i class="fab fa-facebook"></i>
+                <i class="fab fa-instagram"></i>
+            </div>
+        </div>
+    </footer>
+
+    <div id="addRecordModal" class="modal">
+        <div class="modal-content" style="width: 92%; max-width: 1400px;">
+            <div class="modal-header">
+                <h3><i class="fas fa-plus-circle"></i> Add Multiple Employee Records</h3>
+                <span class="modal-close" id="closeAddModal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div id="addModalMessage" style="padding: 8px; margin-bottom: 8px; display: none;"></div>
+                
+                <div style="overflow-x: auto; max-height: 65vh;">
+                    <table class="modal-table" id="addRecordsTable">
+                        <thead>
+                            <tr>
+                                <th style="width: 40px;">#</th>
+                                <th style="width: 180px;">Employee Name *</th>
+                                <th style="width: 150px;">Remarks</th>
+                                <th style="width: 130px;">Departure Date</th>
+                                <th style="width: 130px;">Return Date</th>
+                                <th style="width: 80px;">Tickets</th>
+                                <th style="width: 110px;">PDF Upload</th>
+                                <th style="width: 70px;">Vac. Days</th>
+                                <th style="width: 120px;">Status</th>
+                                <th style="width: 200px;">Message</th>
+                                <th style="width: 70px;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="addRecordsTableBody">
+                            <tr id="tempRow0">
+                                <td style="font-weight: bold; background: #f0f0f5;">1</td>
+                                <td>
+                                    <input type="text" class="temp-emp-name" placeholder="Employee name" style="width: 100%;">
+                                </td>
+                                <td>
+                                    <input type="text" class="temp-emp-remarks" placeholder="Remarks" style="width: 100%;">
+                                </td>
+                                <td>
+                                    <input type="date" class="temp-emp-departure" style="width: 100%;" onchange="updateTempPreview(0)">
+                                kit</td>
+                                <td>
+                                    <input type="date" class="temp-emp-return" style="width: 100%;" onchange="updateTempPreview(0)">
+                                </td>
+                                <td>
+                                    <input type="number" class="temp-emp-tickets" value="0" min="0" style="width: 70px;" onchange="updateTempPreview(0)">
+                                </td>
+                                <td>
+                                    <button class="pdf-upload-btn-small" onclick="uploadTempPdf(0)">📄 Upload PDF</button>
+                                    <div class="temp-pdf-name" style="font-size: 9px; margin-top: 3px;"></div>
+                                </td>
+                                <td class="calc-vacation" id="tempVacation_0">0</td>
+                                <td id="tempStatus_0" class="status-badge status-draft">Draft</td>
+                                <td class="temp-preview-message" id="tempMessage_0" style="font-size: 0.65rem; max-width: 180px; word-break: break-word;">-</td>
+                                <td>
+                                    <button class="action-btn delete-btn" onclick="removeTempRow(0)" style="background: #dc3545;">🗑️</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div style="display: flex; gap: 12px; margin-top: 20px; justify-content: center;">
+                    <button class="btn btn-primary" id="addRowModalBtn"><i class="fas fa-plus"></i> Add Row</button>
+                    <button class="btn btn-success" id="saveAllModalBtn"><i class="fas fa-save"></i> Save All Records</button>
+                    <button class="btn btn-outline" id="cancelModalBtn"><i class="fas fa-times"></i> Cancel</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- MONTHLY TRAVEL SUMMARY MODAL -->
-<div id="monthlySummaryModal" class="modal">
-    <div class="modal-content" style="max-width: 650px; width: 90%;">
-        <div class="modal-header"><h3><i class="fas fa-calendar-month"></i> Monthly Travel Summary</h3><span class="modal-close" id="closeSummaryModal">&times;</span></div>
-        <div class="modal-body">
-            <div class="month-selector">
-                <select id="summaryYear"><option value="2024">2024</option><option value="2025">2025</option><option value="2026" selected>2026</option><option value="2027">2027</option><option value="2028">2028</option></select>
-                <select id="summaryMonth"><option value="0">January</option><option value="1">February</option><option value="2">March</option><option value="3">April</option><option value="4">May</option><option value="5">June</option><option value="6">July</option><option value="7">August</option><option value="8">September</option><option value="9">October</option><option value="10">November</option><option value="11">December</option></select>
-                <button class="btn btn-primary" id="loadSummaryBtn"><i class="fas fa-search"></i> Show Summary</button>
+    <div id="sheetModal" class="modal">
+        <div class="modal-content" style="width: 92%; max-width: 1400px;">
+            <div class="modal-header">
+                <h3><i class="fas fa-table"></i> ✈️ Employee Flight Ticket Confirmation Records</h3>
+                <span class="modal-close" id="closeModalBtn">&times;</span>
             </div>
-            <div id="summaryResult"><div style="text-align: center; padding: 40px;"><i class="fas fa-calendar-alt" style="font-size: 48px; margin-bottom: 15px; display: block;"></i>Select Year and Month then click "Show Summary"</div></div>
+            <div class="modal-body">
+                <div id="modalMessage" style="padding: 8px; margin-bottom: 8px; display: none;"></div>
+                
+                <div style="overflow-x: auto; max-height: 65vh;">
+                    <table class="modal-table" id="modalTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Employee</th>
+                                <th>Remarks</th>
+                                <th>Departure</th>
+                                <th>Return</th>
+                                <th>Vac. Days</th>
+                                <th>Tickets</th>
+                                <th>PDF</th>
+                                <th>Status</th>
+                                <th>Message</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="modalTableBody">
+                            <tr>
+                                <td colspan="11" style="text-align: center; padding: 50px;">Click "Refresh Data" first</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div style="margin-top: 20px; text-align: right;">
+                    <button class="btn btn-success" id="saveModalChangesBtn">💾 Save All Changes</button>
+                    <button class="btn btn-outline" id="closeModalBtn2">Close</button>
+                </div>
+            </div>
         </div>
     </div>
-</div>
 
-<!-- Google Sheet Modal -->
-<div id="googleSheetModal" class="modal">
-    <div class="modal-content" style="max-width: 95%; width: 95%; height: 90vh;">
-        <div class="modal-header"><h3><i class="fas fa-database"></i> 📊 Google Sheet - Employee Database</h3><span class="modal-close" id="closeGoogleSheetModal">&times;</span></div>
-        <div class="modal-body" style="height: calc(90vh - 70px); padding: 0;"><iframe id="googleSheetFrame" src="" style="width: 100%; height: 100%; border: none; border-radius: 0 0 20px 20px;"></iframe></div>
+    <div id="monthlySummaryModal" class="modal">
+        <div class="modal-content" style="max-width: 650px; width: 90%;">
+            <div class="modal-header">
+                <h3><i class="fas fa-calendar-month"></i> Monthly Travel Summary</h3>
+                <span class="modal-close" id="closeSummaryModal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="month-selector">
+                    <select id="summaryYear">
+                        <option value="2024">2024</option>
+                        <option value="2025">2025</option>
+                        <option value="2026" selected>2026</option>
+                        <option value="2027">2027</option>
+                        <option value="2028">2028</option>
+                    </select>
+                    <select id="summaryMonth">
+                        <option value="0">January</option>
+                        <option value="1">February</option>
+                        <option value="2">March</option>
+                        <option value="3">April</option>
+                        <option value="4">May</option>
+                        <option value="5">June</option>
+                        <option value="6">July</option>
+                        <option value="7">August</option>
+                        <option value="8">September</option>
+                        <option value="9">October</option>
+                        <option value="10">November</option>
+                        <option value="11">December</option>
+                    </select>
+                    <button class="btn btn-primary" id="loadSummaryBtn">
+                        <i class="fas fa-search"></i> Show Summary
+                    </button>
+                </div>
+                <div id="summaryResult">
+                    <div style="text-align: center; padding: 40px;">
+                        <i class="fas fa-calendar-alt" style="font-size: 48px; margin-bottom: 15px; display: block;"></i>
+                        Select Year and Month then click "Show Summary"
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
 
-<!-- PDF Viewer Modal -->
-<div id="pdfViewerModal" class="pdf-modal">
-    <div class="pdf-modal-content">
-        <div class="pdf-modal-header"><h3><i class="fas fa-file-pdf"></i> <span id="pdfViewerTitle">PDF Ticket Viewer</span></h3><span class="pdf-modal-close" id="closePdfViewerModal">&times;</span></div>
-        <div class="pdf-modal-body"><iframe id="pdfViewerFrame" class="pdf-viewer-frame"></iframe></div>
-        <div class="pdf-info"><span id="pdfFileNameDisplay"></span><span>Use mouse wheel to zoom | Click and drag to pan</span></div>
+    <div id="googleSheetModal" class="modal">
+        <div class="modal-content" style="max-width: 95%; width: 95%; height: 90vh;">
+            <div class="modal-header">
+                <h3><i class="fas fa-database"></i> 📊 Google Sheet - Employee Database</h3>
+                <span class="modal-close" id="closeGoogleSheetModal">&times;</span>
+            </div>
+            <div class="modal-body" style="height: calc(90vh - 70px); padding: 0;">
+                <iframe id="googleSheetFrame" src="" style="width: 100%; height: 100%; border: none; border-radius: 0 0 20px 20px;"></iframe>
+            </div>
+        </div>
     </div>
-</div>
 
-<input type="file" id="pdfUploadInput" accept=".pdf" style="display: none;">
-<input type="file" id="modalPdfUploadInput" accept=".pdf" style="display: none;">
+    <div id="pdfViewerModal" class="pdf-modal">
+        <div class="pdf-modal-content">
+            <div class="pdf-modal-header">
+                <h3><i class="fas fa-file-pdf"></i> <span id="pdfViewerTitle">PDF Ticket Viewer</span></h3>
+                <span class="pdf-modal-close" id="closePdfViewerModal">&times;</span>
+            </div>
+            <div class="pdf-modal-body">
+                <iframe id="pdfViewerFrame" class="pdf-viewer-frame"></iframe>
+            </div>
+            <div class="pdf-info">
+                <span id="pdfFileNameDisplay"></span>
+                <span>Use mouse wheel to zoom | Click and drag to pan</span>
+            </div>
+        </div>
+    </div>
 
-<script src="script.js"></script>
+    <input type="file" id="pdfUploadInput" accept=".pdf" style="display: none;">
+    <input type="file" id="modalPdfUploadInput" accept=".pdf" style="display: none;">
+
+    <script src="script.js"></script>
 </body>
 </html>
