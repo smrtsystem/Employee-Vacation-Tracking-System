@@ -1,3 +1,7 @@
+/* ============================================================================
+   1. GLOBAL RESET, CONFIGURATION & BASE STYLES
+   ============================================================================ */
+
 * {
     margin: 0;
     padding: 0;
@@ -14,7 +18,11 @@ body {
     transition: background 0.3s ease, color 0.3s ease;
 }
 
-/* Dark Mode Styles */
+
+/* ============================================================================
+   2. SYSTEM DARK MODE THEME OVERRIDES
+   ============================================================================ */
+
 body.dark-mode {
     background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
 }
@@ -161,7 +169,11 @@ body.dark-mode .status-upcoming {
     color: #7ab3c8;
 }
 
-/* Theme Toggle Button */
+
+/* ============================================================================
+   3. SYSTEM THEME SWITCHER COMPONENT
+   ============================================================================ */
+
 .theme-toggle {
     display: flex;
     align-items: center;
@@ -193,7 +205,11 @@ body.dark-mode .theme-btn {
     color: #ffd966;
 }
 
-/* Light Mode Default Styles */
+
+/* ============================================================================
+   4. CORE STRUCTURE & CONTAINER CONTEXTS
+   ============================================================================ */
+
 .dashboard-container {
     max-width: 98%;
     width: 98%;
@@ -205,6 +221,11 @@ body.dark-mode .theme-btn {
     flex: 1;
     transition: all 0.3s ease;
 }
+
+
+/* ============================================================================
+   5. AIRPLANE SPLASH LOADING SCREEN OVERLAY
+   ============================================================================ */
 
 .airplane-overlay {
     position: fixed;
@@ -219,33 +240,62 @@ body.dark-mode .theme-btn {
     align-items: center;
 }
 
-.airplane-container { text-align: center; }
-.airplane { font-size: 70px; color: #ffd700; animation: fly 1.5s ease-in-out infinite; margin-bottom: 20px; }
-.airplane i { transform: rotate(-20deg); display: inline-block; }
-.loading-text { color: white; font-size: 20px; margin-top: 30px; font-weight: 500; letter-spacing: 2px; animation: pulse 1s ease-in-out infinite; }
-.cloud { position: absolute; color: rgba(255, 255, 255, 0.25); font-size: 45px; }
-.cloud1 { left: -100px; top: -30px; animation: cloudMove 3s linear infinite; }
-.cloud2 { left: -50px; top: -50px; font-size: 35px; animation: cloudMove 4s linear infinite; }
-.cloud3 { left: -150px; top: -10px; font-size: 55px; animation: cloudMove 5s linear infinite; }
-
-@keyframes fly {
-    0% { transform: translateX(-100px) translateY(0px) rotate(-20deg); opacity: 0; }
-    20% { opacity: 1; }
-    80% { opacity: 1; }
-    100% { transform: translateX(100px) translateY(-50px) rotate(-10deg); opacity: 0; }
+.airplane-container {
+    text-align: center;
 }
 
-@keyframes cloudMove {
-    0% { transform: translateX(-200px); }
-    100% { transform: translateX(calc(100vw + 200px)); }
+.airplane {
+    font-size: 70px;
+    color: #ffd700;
+    animation: fly 1.5s ease-in-out infinite;
+    margin-bottom: 20px;
 }
 
-@keyframes pulse {
-    0%, 100% { opacity: 0.6; }
-    50% { opacity: 1; }
+.airplane i {
+    transform: rotate(-20deg);
+    display: inline-block;
 }
 
-/* Login Modal */
+.loading-text {
+    color: white;
+    font-size: 20px;
+    margin-top: 30px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    animation: pulse 1s ease-in-out infinite;
+}
+
+.cloud {
+    position: absolute;
+    color: rgba(255, 255, 255, 0.25);
+    font-size: 45px;
+}
+
+.cloud1 {
+    left: -100px;
+    top: -30px;
+    animation: cloudMove 3s linear infinite;
+}
+
+.cloud2 {
+    left: -50px;
+    top: -50px;
+    font-size: 35px;
+    animation: cloudMove 4s linear infinite;
+}
+
+.cloud3 {
+    left: -150px;
+    top: -10px;
+    font-size: 55px;
+    animation: cloudMove 5s linear infinite;
+}
+
+
+/* ============================================================================
+   6. GATEWAY & PORTAL SECURITY LOGIN MODAL
+   ============================================================================ */
+
 .login-modal {
     display: flex;
     position: fixed;
@@ -269,11 +319,6 @@ body.dark-mode .theme-btn {
     animation: slideUp 0.5s ease;
 }
 
-@keyframes slideUp {
-    from { transform: translateY(50px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
-}
-
 .login-icon {
     background: linear-gradient(135deg, #1e6f5c, #0f5a49);
     width: 80px;
@@ -285,9 +330,23 @@ body.dark-mode .theme-btn {
     margin: 0 auto 20px auto;
 }
 
-.login-icon i { font-size: 40px; color: #ffd700; }
-.login-card h2 { color: #1a3c34; font-size: 28px; margin-bottom: 8px; font-weight: 700; }
-.login-subtitle { color: #7f8c8d; font-size: 13px; margin-bottom: 25px; }
+.login-icon i {
+    font-size: 40px;
+    color: #ffd700;
+}
+
+.login-card h2 {
+    color: #1a3c34;
+    font-size: 28px;
+    margin-bottom: 8px;
+    font-weight: 700;
+}
+
+.login-subtitle {
+    color: #7f8c8d;
+    font-size: 13px;
+    margin-bottom: 25px;
+}
 
 .input-group {
     position: relative;
@@ -372,7 +431,11 @@ body.dark-mode .theme-btn {
     display: inline-block;
 }
 
-/* Header */
+
+/* ============================================================================
+   7. CORPORATE BRAND HEADER & REAL-TIME SUMMARY STATS
+   ============================================================================ */
+
 .company-header {
     background: linear-gradient(135deg, #0f3b3a 0%, #1a5c55 100%);
     padding: 1.2rem 2rem;
@@ -383,9 +446,23 @@ body.dark-mode .theme-btn {
     gap: 1rem;
 }
 
-.title-section h1 { font-size: 1.8rem; font-weight: 700; color: white; letter-spacing: -0.3px; }
-.title-section h1 span { font-weight: 300; color: #ffd966; }
-.title-section .tagline { font-size: 0.75rem; color: #c8e6df; margin-top: 0.35rem; }
+.title-section h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: white;
+    letter-spacing: -0.3px;
+}
+
+.title-section h1 span {
+    font-weight: 300;
+    color: #ffd966;
+}
+
+.title-section .tagline {
+    font-size: 0.75rem;
+    color: #c8e6df;
+    margin-top: 0.35rem;
+}
 
 .stats-badge {
     background: rgba(255, 255, 240, 0.15);
@@ -406,9 +483,16 @@ body.dark-mode .theme-btn {
     font-size: 0.8rem;
 }
 
-.stat-item i { font-size: 1rem; color: #ffd966; }
+.stat-item i {
+    font-size: 1rem;
+    color: #ffd966;
+}
 
-/* User Section */
+
+/* ============================================================================
+   8. USER META SESSION MANAGEMENT STRIP
+   ============================================================================ */
+
 .login-section {
     background: #f0f4f8;
     padding: 0.8rem 2rem;
@@ -431,8 +515,16 @@ body.dark-mode .theme-btn {
     box-shadow: 0 1px 3px rgba(0,0,0,0.05);
 }
 
-.user-info i { font-size: 1.1rem; color: #1e6f5c; }
-.user-role { font-weight: bold; color: #1e6f5c; }
+.user-info i {
+    font-size: 1.1rem;
+    color: #1e6f5c;
+}
+
+.user-role {
+    font-weight: bold;
+    color: #1e6f5c;
+}
+
 .logout-btn {
     background: #dc3545;
     color: white;
@@ -445,20 +537,39 @@ body.dark-mode .theme-btn {
     transition: 0.2s;
 }
 
-.logout-btn:hover { background: #c82333; transform: scale(1.02); }
+.logout-btn:hover {
+    background: #c82333;
+    transform: scale(1.02);
+}
 
-/* Hero Section */
+
+/* ============================================================================
+   9. INTERACTIVE HERO BAR & DASHBOARD NAVIGATION CONTROLS
+   ============================================================================ */
+
 .hero-section {
     background: linear-gradient(135deg, #1e6f5c 0%, #2c8a74 100%);
     padding: 1.2rem 2rem;
     text-align: center;
 }
 
-.hero-title { font-size: 1.5rem; font-weight: 700; color: white; margin-bottom: 0.4rem; }
-.hero-title i { color: #ffd966; margin-right: 10px; }
-.hero-subtitle { font-size: 0.85rem; color: #e0f0ec; }
+.hero-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 0.4rem;
+}
 
-/* Button Section */
+.hero-title i {
+    color: #ffd966;
+    margin-right: 10px;
+}
+
+.hero-subtitle {
+    font-size: 0.85rem;
+    color: #e0f0ec;
+}
+
 .google-section {
     background: #f8fafc;
     padding: 0.8rem 2rem;
@@ -488,21 +599,79 @@ body.dark-mode .theme-btn {
     font-family: inherit;
 }
 
-.btn-primary { background: #1e6f5c; color: white; box-shadow: 0 4px 10px rgba(30,111,92,0.2); }
-.btn-primary:hover { background: #0f5a49; transform: translateY(-2px); }
-.btn-success { background: #28a745; color: white; }
-.btn-success:hover { background: #218838; transform: translateY(-2px); }
-.btn-warning { background: #ffc107; color: #333; }
-.btn-warning:hover { background: #e0a800; transform: translateY(-2px); }
-.btn-outline { border: 1px solid #cbdde6; background: white; color: #2c4b5c; }
-.btn-outline:hover { background: #eef3f8; border-color: #9bb7c9; }
-.btn-info { background: #17a2b8; color: white; }
-.btn-info:hover { background: #138496; transform: translateY(-2px); }
-.btn-purple { background: #6f42c1; color: white; }
-.btn-purple:hover { background: #5a32a3; transform: translateY(-2px); }
-.btn-disabled { opacity: 0.5; cursor: not-allowed; pointer-events: none; }
+.btn-primary {
+    background: #1e6f5c;
+    color: white;
+    box-shadow: 0 4px 10px rgba(30,111,92,0.2);
+}
 
-/* Analytics Section */
+.btn-primary:hover {
+    background: #0f5a49;
+    transform: translateY(-2px);
+}
+
+.btn-success {
+    background: #28a745;
+    color: white;
+}
+
+.btn-success:hover {
+    background: #218838;
+    transform: translateY(-2px);
+}
+
+.btn-warning {
+    background: #ffc107;
+    color: #333;
+}
+
+.btn-warning:hover {
+    background: #e0a800;
+    transform: translateY(-2px);
+}
+
+.btn-outline {
+    border: 1px solid #cbdde6;
+    background: white;
+    color: #2c4b5c;
+}
+
+.btn-outline:hover {
+    background: #eef3f8;
+    border-color: #9bb7c9;
+}
+
+.btn-info {
+    background: #17a2b8;
+    color: white;
+}
+
+.btn-info:hover {
+    background: #138496;
+    transform: translateY(-2px);
+}
+
+.btn-purple {
+    background: #6f42c1;
+    color: white;
+}
+
+.btn-purple:hover {
+    background: #5a32a3;
+    transform: translateY(-2px);
+}
+
+.btn-disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+
+/* ============================================================================
+   10. BUSINESS INTEL & DATA VISUALIZATION CARDS (ANALYTICS)
+   ============================================================================ */
+
 .analytics-section {
     background: #ffffff;
     margin: 1rem;
@@ -542,10 +711,31 @@ body.dark-mode .theme-btn {
     transition: all 0.2s;
 }
 
-.analytics-card:hover { transform: translateY(-2px); box-shadow: 0 6px 14px rgba(0,0,0,0.05); }
-.analytics-card i { font-size: 1.4rem; color: #1e6f5c; background: #e8f0fe; padding: 8px; border-radius: 14px; }
-.card-label { font-size: 0.65rem; text-transform: uppercase; color: #7f8c8d; letter-spacing: 0.5px; }
-.card-value { font-size: 1.3rem; font-weight: 700; color: #1a3c34; }
+.analytics-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.05);
+}
+
+.analytics-card i {
+    font-size: 1.4rem;
+    color: #1e6f5c;
+    background: #e8f0fe;
+    padding: 8px;
+    border-radius: 14px;
+}
+
+.card-label {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    color: #7f8c8d;
+    letter-spacing: 0.5px;
+}
+
+.card-value {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #1a3c34;
+}
 
 .charts-row {
     display: grid;
@@ -562,8 +752,22 @@ body.dark-mode .theme-btn {
     border: 1px solid #edf2f7;
 }
 
-.chart-box h4 { font-size: 0.8rem; color: #2c5a6e; margin-bottom: 0.5rem; display: flex; align-items: center; justify-content: center; gap: 6px; }
-.chart-box canvas { max-width: 100%; height: auto; max-height: 220px; }
+.chart-box h4 {
+    font-size: 0.8rem;
+    color: #2c5a6e;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.chart-box canvas {
+    max-width: 100%;
+    height: auto;
+    max-height: 220px;
+}
+
 .analytics-note {
     font-size: 0.65rem;
     color: #8aaec0;
@@ -573,7 +777,11 @@ body.dark-mode .theme-btn {
     padding-top: 0.6rem;
 }
 
-/* Modals */
+
+/* ============================================================================
+   11. DATA DISPLAY & EDIT MODE MODAL DIALOGUES
+   ============================================================================ */
+
 .modal {
     display: none;
     position: fixed;
@@ -616,8 +824,19 @@ body.dark-mode .theme-btn {
     transition: 0.2s;
 }
 
-.modal-close:hover { color: #ffb74d; transform: scale(1.1); }
-.modal-body { padding: 1.2rem; }
+.modal-close:hover {
+    color: #ffb74d;
+    transform: scale(1.1);
+}
+
+.modal-body {
+    padding: 1.2rem;
+}
+
+
+/* ============================================================================
+   12. INTERACTIVE COMPONENT GRID ARCHITECTURE (MODAL TABLES)
+   ============================================================================ */
 
 .modal-table {
     width: 100%;
@@ -643,8 +862,12 @@ body.dark-mode .theme-btn {
     border-bottom: 2px solid #e2e8f0;
 }
 
-.modal-table tr:hover { background: #fafcff; }
-.modal-table input, .modal-table select {
+.modal-table tr:hover {
+    background: #fafcff;
+}
+
+.modal-table input, 
+.modal-table select {
     border: 1px solid #dce5ec;
     border-radius: 8px;
     padding: 6px 8px;
@@ -653,7 +876,11 @@ body.dark-mode .theme-btn {
     width: 100%;
 }
 
-/* Status Badges */
+
+/* ============================================================================
+   13. COMPONENT BADGES & OPERATIONAL CALLOUT CONTEXTS
+   ============================================================================ */
+
 .status-badge {
     display: inline-block;
     padding: 4px 12px;
@@ -687,7 +914,11 @@ body.dark-mode .theme-btn {
     color: #0c5460;
 }
 
-/* Action Buttons */
+
+/* ============================================================================
+   14. RECORD-LEVEL INTERACTION ACTION CONTROL UTILITIES
+   ============================================================================ */
+
 .action-btn {
     border: none;
     padding: 5px 10px;
@@ -698,19 +929,69 @@ body.dark-mode .theme-btn {
     transition: 0.2s;
 }
 
-.delete-btn { background: #dc3545; color: white; }
-.edit-btn { background: #ffc107; color: #333; }
-.save-edit-btn { background: #28a745; color: white; }
-.cancel-edit-btn { background: #6c757d; color: white; }
-.upload-pdf-btn { background: #1e6f5c; color: white; }
-.view-pdf-btn { background: #17a2b8; color: white; }
+.delete-btn {
+    background: #dc3545;
+    color: white;
+}
 
-.pdf-upload-btn-small { background: #1e6f5c; color: white; border: none; padding: 4px 10px; border-radius: 6px; cursor: pointer; font-size: 0.65rem; }
-.pdf-name-display { font-size: 0.6rem; margin-top: 3px; color: #2e7d64; }
-.calc-vacation { font-weight: bold; color: #1e6f5c; font-size: 0.75rem; }
-.temp-preview-message { font-size: 0.65rem; max-width: 180px; word-break: break-word; }
+.edit-btn {
+    background: #ffc107;
+    color: #333;
+}
 
-/* Summary Modal */
+.save-edit-btn {
+    background: #28a745;
+    color: white;
+}
+
+.cancel-edit-btn {
+    background: #6c757d;
+    color: white;
+}
+
+.upload-pdf-btn {
+    background: #1e6f5c;
+    color: white;
+}
+
+.view-pdf-btn {
+    background: #17a2b8;
+    color: white;
+}
+
+.pdf-upload-btn-small {
+    background: #1e6f5c;
+    color: white;
+    border: none;
+    padding: 4px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.65rem;
+}
+
+.pdf-name-display {
+    font-size: 0.6rem;
+    margin-top: 3px;
+    color: #2e7d64;
+}
+
+.calc-vacation {
+    font-weight: bold;
+    color: #1e6f5c;
+    font-size: 0.75rem;
+}
+
+.temp-preview-message {
+    font-size: 0.65rem;
+    max-width: 180px;
+    word-break: break-word;
+}
+
+
+/* ============================================================================
+   15. MONTHLY METRIC SUMMARY REPORTS PANEL
+   ============================================================================ */
+
 .summary-card {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     border-radius: 20px;
@@ -719,10 +1000,27 @@ body.dark-mode .theme-btn {
     color: white;
 }
 
-.summary-stats { display: flex; gap: 30px; justify-content: center; margin-top: 12px; }
-.summary-stat { text-align: center; }
-.summary-stat-number { font-size: 2rem; font-weight: bold; }
-.summary-stat-label { font-size: 0.75rem; opacity: 0.9; }
+.summary-stats {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    margin-top: 12px;
+}
+
+.summary-stat {
+    text-align: center;
+}
+
+.summary-stat-number {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.summary-stat-label {
+    font-size: 0.75rem;
+    opacity: 0.9;
+}
+
 .employee-list {
     background: #f8fafc;
     border-radius: 16px;
@@ -731,8 +1029,18 @@ body.dark-mode .theme-btn {
     border: 1px solid #eef2f8;
 }
 
-.employee-list h4 { color: #1a3c34; margin-bottom: 10px; font-size: 0.9rem; }
-.employee-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.employee-list h4 {
+    color: #1a3c34;
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+}
+
+.employee-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
 .employee-tag {
     background: linear-gradient(135deg, #1e6f5c, #0f5a49);
     color: white;
@@ -741,7 +1049,11 @@ body.dark-mode .theme-btn {
     font-size: 0.7rem;
     font-weight: 500;
 }
-.employee-tag-return { background: linear-gradient(135deg, #17a2b8, #0f5a49); }
+
+.employee-tag-return {
+    background: linear-gradient(135deg, #17a2b8, #0f5a49);
+}
+
 .month-selector {
     display: flex;
     gap: 12px;
@@ -749,6 +1061,7 @@ body.dark-mode .theme-btn {
     margin-bottom: 20px;
     flex-wrap: wrap;
 }
+
 .month-selector select {
     padding: 8px 18px;
     font-size: 0.85rem;
@@ -758,7 +1071,11 @@ body.dark-mode .theme-btn {
     cursor: pointer;
 }
 
-/* PDF Modal */
+
+/* ============================================================================
+   16. TICKETING DOCUMENT STREAM (LARGE PDF OVERLAY VIEWPORT)
+   ============================================================================ */
+
 .pdf-modal {
     display: none;
     position: fixed;
@@ -770,6 +1087,7 @@ body.dark-mode .theme-btn {
     background: rgba(0, 0, 0, 0.95);
     animation: fadeIn 0.3s;
 }
+
 .pdf-modal-content {
     background: #1a1a1a;
     margin: 1% auto;
@@ -781,6 +1099,7 @@ body.dark-mode .theme-btn {
     flex-direction: column;
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
+
 .pdf-modal-header {
     padding: 12px 20px;
     background: #123b4e;
@@ -790,13 +1109,43 @@ body.dark-mode .theme-btn {
     justify-content: space-between;
     align-items: center;
 }
-.pdf-modal-close { font-size: 28px; cursor: pointer; }
-.pdf-modal-close:hover { color: #ffb74d; }
-.pdf-modal-body { flex: 1; padding: 10px; background: #333; }
-.pdf-viewer-frame { width: 100%; height: 100%; border: none; background: white; border-radius: 10px; }
-.pdf-info { padding: 8px 15px; background: #f0f0f0; font-size: 11px; display: flex; justify-content: space-between; }
 
-/* Footer */
+.pdf-modal-close {
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.pdf-modal-close:hover {
+    color: #ffb74d;
+}
+
+.pdf-modal-body {
+    flex: 1;
+    padding: 10px;
+    background: #333;
+}
+
+.pdf-viewer-frame {
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: white;
+    border-radius: 10px;
+}
+
+.pdf-info {
+    padding: 8px 15px;
+    background: #f0f0f0;
+    font-size: 11px;
+    display: flex;
+    justify-content: space-between;
+}
+
+
+/* ============================================================================
+   17. ANCHORED SITE SYSTEM FOOTER CONTEXTS
+   ============================================================================ */
+
 .main-footer {
     background: linear-gradient(135deg, #0f3b3a 0%, #123b4e 100%);
     color: white;
@@ -804,6 +1153,7 @@ body.dark-mode .theme-btn {
     text-align: center;
     margin-top: auto;
 }
+
 .footer-content {
     max-width: 98%;
     margin: 0 auto;
@@ -813,13 +1163,45 @@ body.dark-mode .theme-btn {
     flex-wrap: wrap;
     gap: 1rem;
 }
-.footer-copyright { font-size: 0.7rem; opacity: 0.8; }
-.footer-links { display: flex; gap: 1.5rem; }
-.footer-links a { color: #ffd966; text-decoration: none; font-size: 0.7rem; transition: 0.2s; }
-.footer-links a:hover { color: white; text-decoration: underline; }
-.footer-social { display: flex; gap: 1rem; }
-.footer-social i { font-size: 1rem; cursor: pointer; transition: 0.2s; opacity: 0.8; }
-.footer-social i:hover { opacity: 1; transform: translateY(-2px); }
+
+.footer-copyright {
+    font-size: 0.7rem;
+    opacity: 0.8;
+}
+
+.footer-links {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.footer-links a {
+    color: #ffd966;
+    text-decoration: none;
+    font-size: 0.7rem;
+    transition: 0.2s;
+}
+
+.footer-links a:hover {
+    color: white;
+    text-decoration: underline;
+}
+
+.footer-social {
+    display: flex;
+    gap: 1rem;
+}
+
+.footer-social i {
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.2s;
+    opacity: 0.8;
+}
+
+.footer-social i:hover {
+    opacity: 1;
+    transform: translateY(-2px);
+}
 
 .footer-note {
     background: #f8fafc;
@@ -833,19 +1215,105 @@ body.dark-mode .theme-btn {
     flex-wrap: wrap;
 }
 
+
+/* ============================================================================
+   18. GLOBAL CORE SYSTEM ANIMATIONS
+   ============================================================================ */
+
 @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
 }
 
+@keyframes fly {
+    0% {
+        transform: translateX(-100px) translateY(0px) rotate(-20deg);
+        opacity: 0;
+    }
+    20% {
+        opacity: 1;
+    }
+    80% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(100px) translateY(-50px) rotate(-10deg);
+        opacity: 0;
+    }
+}
+
+@keyframes cloudMove {
+    0% {
+        transform: translateX(-200px);
+    }
+    100% {
+        transform: translateX(calc(100vw + 200px));
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 0.6;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+
+/* ============================================================================
+   19. HARD CODES RESPONSIVE VIEWPORT BREAKPOINTS
+   ============================================================================ */
+
 @media (max-width: 700px) {
-    .hero-title { font-size: 1.3rem; }
-    .footer-content { flex-direction: column; text-align: center; }
-    .dashboard-container { width: 95%; }
-    .analytics-cards { grid-template-columns: repeat(2, 1fr); }
-    .charts-row { grid-template-columns: 1fr; }
-    .login-card { width: 90%; padding: 1.5rem; }
-    .modal-table th, .modal-table td { padding: 8px 4px; }
-    .company-header { flex-direction: column; align-items: flex-start; }
-    .theme-toggle { align-self: flex-end; }
+    .hero-title {
+        font-size: 1.3rem;
+    }
+    
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .dashboard-container {
+        width: 95%;
+    }
+    
+    .analytics-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .charts-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .login-card {
+        width: 90%;
+        padding: 1.5rem;
+    }
+    
+    .modal-table th, 
+    .modal-table td {
+        padding: 8px 4px;
+    }
+    
+    .company-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .theme-toggle {
+        align-self: flex-end;
+    }
 }
