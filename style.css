@@ -20,7 +20,7 @@ body {
 
 
 /* ============================================================================
-   2. SYSTEM DARK MODE THEME OVERRIDES
+   2. SYSTEM DARK MODE THEME OVERRIDES - ALL TEXT WHITE
    ============================================================================ */
 
 body.dark-mode {
@@ -28,9 +28,9 @@ body.dark-mode {
 }
 
 body.dark-mode .dashboard-container {
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 body.dark-mode .company-header {
@@ -38,20 +38,20 @@ body.dark-mode .company-header {
 }
 
 body.dark-mode .stats-badge {
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.4);
 }
 
 body.dark-mode .stat-item {
-    color: #e8f0ea;
+    color: #ffffff;
 }
 
 body.dark-mode .login-section {
-    background: rgba(0, 0, 0, 0.2);
+    background: rgba(0, 0, 0, 0.3);
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 body.dark-mode .user-info {
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.4);
     color: white;
 }
 
@@ -59,13 +59,23 @@ body.dark-mode .hero-section {
     background: linear-gradient(135deg, #1a5c55 0%, #0f3b3a 100%);
 }
 
+body.dark-mode .hero-title,
+body.dark-mode .hero-subtitle {
+    color: white;
+}
+
 body.dark-mode .google-section {
-    background: rgba(0, 0, 0, 0.2);
+    background: rgba(0, 0, 0, 0.3);
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 body.dark-mode .btn {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.12);
+    color: white;
+}
+
+body.dark-mode .btn-primary {
+    background: #1e6f5c;
     color: white;
 }
 
@@ -76,7 +86,7 @@ body.dark-mode .btn-outline {
 }
 
 body.dark-mode .analytics-section {
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.35);
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
@@ -85,21 +95,21 @@ body.dark-mode .section-title {
 }
 
 body.dark-mode .analytics-card {
-    background: rgba(0, 0, 0, 0.4);
-    color: white;
+    background: rgba(0, 0, 0, 0.45);
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 body.dark-mode .card-label {
-    color: #b8c9d4;
+    color: #cccccc;
 }
 
 body.dark-mode .card-value {
     color: white;
+    font-weight: 600;
 }
 
 body.dark-mode .chart-box {
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.35);
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
@@ -110,63 +120,195 @@ body.dark-mode .chart-box h4 {
 body.dark-mode .footer-note {
     background: rgba(0, 0, 0, 0.3);
     border-top: 1px solid rgba(255, 255, 255, 0.1);
-    color: #b8c9d4;
+    color: #dddddd;
+}
+
+body.dark-mode .footer-note span {
+    color: #dddddd;
 }
 
 body.dark-mode .main-footer {
     background: linear-gradient(135deg, #0d2b2a 0%, #0f3b3a 100%);
 }
 
+body.dark-mode .footer-copyright,
+body.dark-mode .footer-links a,
+body.dark-mode .footer-social i {
+    color: #ffffff;
+}
+
 body.dark-mode .modal-content {
     background: #1a1a2e;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+body.dark-mode .modal-header {
+    background: linear-gradient(135deg, #0d2b2a 0%, #144a42 100%);
+}
+
+body.dark-mode .modal-header h3 {
+    color: white;
 }
 
 body.dark-mode .modal-table th {
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(0, 0, 0, 0.5);
     color: #ffd966;
     border-bottom: 2px solid rgba(255, 255, 255, 0.2);
 }
 
 body.dark-mode .modal-table td {
-    color: #e0e0e0;
+    color: #ffffff;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 body.dark-mode .modal-table input,
 body.dark-mode .modal-table select {
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(0, 0, 0, 0.5);
     color: white;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+body.dark-mode .modal-table input::placeholder,
+body.dark-mode .modal-table select {
+    color: #aaaaaa;
 }
 
 body.dark-mode .modal-table tr:hover {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.08);
 }
 
 body.dark-mode .status-badge {
-    background: rgba(255, 255, 255, 0.1);
-    color: #e0e0e0;
+    background: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
 }
 
 body.dark-mode .status-confirmed {
-    background: rgba(40, 167, 69, 0.2);
+    background: rgba(40, 167, 69, 0.25);
     color: #a5d6a5;
 }
 
 body.dark-mode .status-pending {
-    background: rgba(255, 193, 7, 0.2);
+    background: rgba(255, 193, 7, 0.25);
     color: #ffd966;
 }
 
 body.dark-mode .status-draft {
-    background: rgba(108, 117, 125, 0.2);
-    color: #c0c0c0;
+    background: rgba(108, 117, 125, 0.3);
+    color: #dddddd;
 }
 
 body.dark-mode .status-upcoming {
-    background: rgba(23, 162, 184, 0.2);
+    background: rgba(23, 162, 184, 0.25);
     color: #7ab3c8;
+}
+
+body.dark-mode .status-completed {
+    background: rgba(40, 167, 69, 0.2);
+    color: #a5d6a5;
+}
+
+body.dark-mode .calc-vacation {
+    color: #ffd966;
+    font-weight: bold;
+}
+
+body.dark-mode .temp-preview-message {
+    color: #cccccc;
+}
+
+body.dark-mode .summary-card {
+    background: linear-gradient(135deg, #1a5c55 0%, #0f3b3a 100%);
+    color: white;
+}
+
+body.dark-mode .employee-list {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .employee-list h4 {
+    color: #ffd966;
+}
+
+body.dark-mode .month-selector select {
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+body.dark-mode .month-selector option {
+    background: #1a1a2e;
+    color: white;
+}
+
+body.dark-mode .login-card {
+    background: #1a1a2e;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .login-card h2 {
+    color: #ffd966;
+}
+
+body.dark-mode .login-subtitle {
+    color: #bbbbbb;
+}
+
+body.dark-mode .input-group input {
+    background: rgba(0, 0, 0, 0.4);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+body.dark-mode .input-group input:focus {
+    border-color: #1e6f5c;
+    background: rgba(0, 0, 0, 0.6);
+}
+
+body.dark-mode .input-group i {
+    color: #1e6f5c;
+}
+
+body.dark-mode .demo-credentials {
+    border-top-color: rgba(255, 255, 255, 0.1);
+    color: #bbbbbb;
+}
+
+body.dark-mode .demo-badge {
+    background: #1e6f5c;
+    color: white;
+}
+
+body.dark-mode .error-msg {
+    background: rgba(220, 53, 69, 0.2);
+    color: #ff9999;
+}
+
+body.dark-mode .pdf-info {
+    background: #2a2a3e;
+    color: white;
+}
+
+body.dark-mode .pdf-modal-header {
+    background: #0d2b2a;
+}
+
+/* Chart.js text color in dark mode */
+body.dark-mode .chart-box canvas {
+    filter: brightness(1.1);
+}
+
+/* Ensure all icons are visible */
+body.dark-mode i,
+body.dark-mode .fas,
+body.dark-mode .far,
+body.dark-mode .fab {
+    color: inherit;
+}
+
+body.dark-mode .footer-social i:hover,
+body.dark-mode .footer-links a:hover {
+    color: #ffd966;
 }
 
 
@@ -520,11 +662,6 @@ body.dark-mode .theme-btn {
     color: #1e6f5c;
 }
 
-.user-role {
-    font-weight: bold;
-    color: #1e6f5c;
-}
-
 .logout-btn {
     background: #dc3545;
     color: white;
@@ -815,13 +952,17 @@ body.dark-mode .theme-btn {
     position: sticky;
     top: 0;
     z-index: 10;
-    font-size: 1rem;
+}
+
+.modal-header h3 {
+    color: white;
 }
 
 .modal-close {
     font-size: 1.6rem;
     cursor: pointer;
     transition: 0.2s;
+    color: white;
 }
 
 .modal-close:hover {
@@ -878,49 +1019,25 @@ body.dark-mode .theme-btn {
 
 
 /* ============================================================================
-   13. COMPONENT BADGES & OPERATIONAL CALLOUT CONTEXTS (COMPLETE FIX)
+   13. COMPONENT BADGES & OPERATIONAL CALLOUT CONTEXTS
    ============================================================================ */
 
-/* 1. Force the 8th table column (Status) to center text vertically and horizontally */
-.modal-table td:nth-child(8) {
-    text-align: center !important;
-    vertical-align: middle !important;
-}
-
-/* 2. Fix any hidden structural wrapper tags (like div or span) generated by your framework */
-.modal-table td:nth-child(8) > div,
-.modal-table td:nth-child(8) > span,
-.modal-table td:nth-child(8) > *:not(.status-badge) {
-    display: flex !important;
+.status-badge {
+    display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    width: 100% !important;
-    height: 100% !important;
-    margin: 0 auto !important;
-}
-
-/* 3. Global Badge Stylings */
-.status-badge {
-    display: inline-flex !important;  /* Creates internal centering context for text */
-    align-items: center !important;   /* Vertically centers text inside badge */
-    justify-content: center !important; /* Horizontally centers text inside badge */
-    vertical-align: middle !important; /* Aligns badge center line with line-height box */
-    
-    /* Structural Rules */
+    vertical-align: middle !important;
     padding: 6px 14px !important;
     border-radius: 20px !important;
     font-size: 0.7rem !important;
     font-weight: 600 !important;
     line-height: 1 !important;
     white-space: nowrap !important;
-    
-    /* Clean up floats or positions dragging it to corners */
     margin: 0 auto !important;
     float: none !important;
     position: static !important;
 }
 
-/* 4. Color Theme Variations */
 .status-confirmed {
     background-color: #d4edda !important;
     color: #155724 !important;
@@ -945,6 +1062,8 @@ body.dark-mode .theme-btn {
     background-color: #d1ecf1 !important;
     color: #0c5460 !important;
 }
+
+
 /* ============================================================================
    14. RECORD-LEVEL INTERACTION ACTION CONTROL UTILITIES
    ============================================================================ */
@@ -1143,6 +1262,7 @@ body.dark-mode .theme-btn {
 .pdf-modal-close {
     font-size: 28px;
     cursor: pointer;
+    color: white;
 }
 
 .pdf-modal-close:hover {
@@ -1197,6 +1317,7 @@ body.dark-mode .theme-btn {
 .footer-copyright {
     font-size: 0.7rem;
     opacity: 0.8;
+    color: white;
 }
 
 .footer-links {
@@ -1226,11 +1347,13 @@ body.dark-mode .theme-btn {
     cursor: pointer;
     transition: 0.2s;
     opacity: 0.8;
+    color: white;
 }
 
 .footer-social i:hover {
     opacity: 1;
     transform: translateY(-2px);
+    color: #ffd966;
 }
 
 .footer-note {
