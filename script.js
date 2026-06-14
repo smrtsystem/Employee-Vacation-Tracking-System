@@ -30,7 +30,6 @@ document.addEventListener("DOMContentLoaded", () => {
     loadSavedTheme();
 });
 
-
 // ============================================================================
 // 2. THEME MANAGEMENT
 // ============================================================================
@@ -45,11 +44,13 @@ function toggleTheme() {
         themeText.innerHTML = 'Dark Mode';
         if (themeBtn) themeBtn.querySelector('i').className = 'fas fa-moon';
         localStorage.setItem('theme', 'light');
+        updateChartsTheme();
     } else {
         body.classList.add('dark-mode');
         themeText.innerHTML = 'Light Mode';
         if (themeBtn) themeBtn.querySelector('i').className = 'fas fa-sun';
         localStorage.setItem('theme', 'dark');
+        updateChartsTheme();
     }
 }
 
@@ -69,6 +70,18 @@ function loadSavedTheme() {
     }
 }
 
+function updateChartsTheme() {
+    if (monthlyChart) {
+        const isDark = document.body.classList.contains('dark-mode');
+        monthlyChart.options.plugins.legend.labels.color = isDark ? '#ffffff' : '#333333';
+        monthlyChart.update();
+    }
+    if (statusChart) {
+        const isDark = document.body.classList.contains('dark-mode');
+        statusChart.options.plugins.legend.labels.color = isDark ? '#ffffff' : '#333333';
+        statusChart.update();
+    }
+}
 
 // ============================================================================
 // 3. DATE UTILITIES & FIELD CALCULATION LOGIC
@@ -167,7 +180,6 @@ function escapeHtml(str) {
     return str.replace(/[&<>]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[m])); 
 }
 
-
 // ============================================================================
 // 4. STATS & ANALYTICS VISUALIZATION Dashboard (Chart.js)
 // ============================================================================
@@ -191,6 +203,9 @@ function updateStatsUI() {
 }
 
 function updateAnalytics() { 
+    const isDark = document.body.classList.contains('dark-mode');
+    const textColor = isDark ? '#ffffff' : '#333333';
+    
     if (!sheetData.length) { 
         document.getElementById('analyticsTotalEmployees').innerText = '0'; 
         document.getElementById('analyticsTotalVacationDays').innerText = '0'; 
@@ -243,7 +258,7 @@ function updateAnalytics() {
             datasets: [{
                 label: 'Total Vacation Days',
                 data: monthlyData,
-                backgroundColor: '#1e6f5c80',
+                backgroundColor: isDark ? '#ffd96680' : '#1e6f5c80',
                 borderRadius: 6
             }]
         },
@@ -251,7 +266,18 @@ function updateAnalytics() {
             responsive: true,
             maintainAspectRatio: true,
             plugins: {
-                legend: { position: 'top' }
+                legend: { 
+                    position: 'top',
+                    labels: { color: textColor }
+                }
+            },
+            scales: {
+                y: {
+                    ticks: { color: textColor }
+                },
+                x: {
+                    ticks: { color: textColor }
+                }
             }
         }
     }); 
@@ -279,12 +305,14 @@ function updateAnalytics() {
             responsive: true,
             maintainAspectRatio: true,
             plugins: {
-                legend: { position: 'right' }
+                legend: { 
+                    position: 'right',
+                    labels: { color: textColor }
+                }
             }
         }
     }); 
 }
-
 
 // ============================================================================
 // 5. GOOGLE SHEET BACKEND API HANDLERS
@@ -401,6 +429,10 @@ function updateSyncLabel(text, isError = false) {
 }
 
 function openGoogleSheetPopup() { 
+    if (!isAdmin()) { 
+        alert("Access Denied: View Stored Records is only available for Admin users."); 
+        return; 
+    }
     const modal = document.getElementById('googleSheetModal'); 
     document.getElementById('googleSheetFrame').src = GOOGLE_SHEET_URL; 
     modal.style.display = 'block'; 
@@ -411,7 +443,6 @@ function closeGoogleSheetPopup() {
     document.getElementById('googleSheetFrame').src = ''; 
     modal.style.display = 'none'; 
 }
-
 
 // ============================================================================
 // 6. MONTHLY TRAVEL OVERVIEW SUMMARY MODAL
@@ -495,7 +526,6 @@ function loadMonthlySummary() {
     }
     resultDiv.innerHTML = html;
 }
-
 
 // ============================================================================
 // 7. "ADD MULTIPLE RECORDS" CONTROL OPERATIONS
@@ -660,7 +690,6 @@ function openAddRecordModal() {
 function closeAddModal() { 
     document.getElementById('addRecordModal').style.display = 'none'; 
 }
-
 
 // ============================================================================
 // 8. INTERACTIVE GRID TABLE RENDERING & ACTIVE RECORD MANIPULATION
@@ -838,7 +867,6 @@ document.getElementById('modalPdfUploadInput').onchange = async function(e) {
     this.value = ''; 
 };
 
-
 // ============================================================================
 // 9. MESSAGING & FLOATING OVERLAYS CONTROLLERS
 // ============================================================================
@@ -883,7 +911,6 @@ function viewLoadedData() {
         alert('No data loaded. Click "Refresh Data" first.'); 
     } 
 }
-
 
 // ============================================================================
 // 10. AUTHENTICATION WORKFLOWS & SYSTEM INITIALIZATION
@@ -955,7 +982,7 @@ function startAutoRefresh() {
 
 function applyUIRestrictions() { 
     const admin = (currentUserRole === 'admin'); 
-    ['addNewRowBtn', 'saveModalChangesBtn'].forEach(btnId => { 
+    ['addNewRowBtn', 'saveModalChangesBtn', 'openGoogleSheetBtn'].forEach(btnId => { 
         const btn = document.getElementById(btnId); 
         if (btn) { 
             if (!admin) { 
