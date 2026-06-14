@@ -34,8 +34,8 @@
             
             <div class="demo-credentials">
                 <p><i class="fas fa-info-circle"></i> Crafted by BBC:</p>
-                <p><span class="demo-badge">Admin</span> Reach out to the respective person.</p>
-                <p><span class="demo-badge">User</span> Reach out to the respective person.</p>
+                <p><span class="demo-badge">Admin</span> Username: admin | Password: 535680</p>
+                <p><span class="demo-badge">User</span> Username: user | Password: 742744</p>
             </div>
         </div>
     </div>
@@ -234,35 +234,16 @@
                         <tbody id="addRecordsTableBody">
                             <tr id="tempRow0">
                                 <td style="font-weight: bold; background: #f0f0f5;">1</td>
-                                <td>
-                                    <input type="text" class="temp-emp-name" placeholder="Employee name" style="width: 100%;">
-                                </td>
-                                <td>
-                                    <input type="text" class="temp-emp-remarks" placeholder="Remarks" style="width: 100%;">
-                                </td>
-                                <td>
-                                    <input type="date" class="temp-emp-departure" style="width: 100%;" onchange="updateTempPreview(0)">
-                                </td>
-                                <td>
-                                    <input type="date" class="temp-emp-return" style="width: 100%;" onchange="updateTempPreview(0)">
-                                </td>
-                                <td>
-                                    <input type="number" class="temp-emp-tickets" value="0" min="0" style="width: 70px;" onchange="updateTempPreview(0)">
-                                </td>
-                                <td>
-                                    <button class="pdf-upload-btn-small" onclick="uploadTempPdf(0)">📄 Upload PDF</button>
-                                    <div class="temp-pdf-name" style="font-size: 9px; margin-top: 3px;"></div>
-                                </td>
+                                <td><input type="text" class="temp-emp-name" placeholder="Employee name" style="width: 100%;"></td>
+                                <td><input type="text" class="temp-emp-remarks" placeholder="Remarks" style="width: 100%;"></td>
+                                <td><input type="date" class="temp-emp-departure" style="width: 100%;" onchange="updateTempPreview(0)"></td>
+                                <td><input type="date" class="temp-emp-return" style="width: 100%;" onchange="updateTempPreview(0)"></td>
+                                <td><input type="number" class="temp-emp-tickets" value="0" min="0" style="width: 70px;" onchange="updateTempPreview(0)"></td>
+                                <td><button class="pdf-upload-btn-small" onclick="uploadTempPdf(0)">📄 Upload PDF</button><div class="temp-pdf-name" style="font-size: 9px; margin-top: 3px;"></div></td>
                                 <td class="calc-vacation" id="tempVacation_0">0</td>
-                                
-                                <td id="tempStatusCell_0" style="text-align: center; vertical-align: middle;">
-                                    <span id="tempStatus_0" class="status-badge status-draft">Draft</span>
-                                </td>
-                                
+                                <td id="tempStatusCell_0" style="text-align: center; vertical-align: middle;"><span id="tempStatus_0" class="status-badge status-draft">Draft</span></td>
                                 <td class="temp-preview-message" id="tempMessage_0" style="font-size: 0.65rem; max-width: 180px; word-break: break-word;">-</td>
-                                <td>
-                                    <button class="action-btn delete-btn" onclick="removeTempRow(0)" style="background: #dc3545;">🗑️</button>
-                                </td>
+                                <td><button class="action-btn delete-btn" onclick="removeTempRow(0)" style="background: #dc3545;">🗑️</button></td>
                             </tr>
                         </tbody>
                     </table>
