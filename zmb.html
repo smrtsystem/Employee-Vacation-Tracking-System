@@ -1,1 +1,88 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>✈️ Zmb Employees · Management</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="stylesheet" href="zmb.css" />
+</head>
+<body>
+
+<div class="module-wrapper">
+    <div class="module-header">
+        <h1><i class="fas fa-users"></i> Zmb Employees · Management</h1>
+        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+            <span class="sync-label" id="zmbSyncStatus"><i class="fas fa-sync-alt"></i> Ready</span>
+            <a href="index.html" class="btn btn-outline" style="text-decoration: none;" id="backToMainBtn">
+                <i class="fas fa-arrow-left"></i> Back to Main
+            </a>
+        </div>
+    </div>
+
+    <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 20px;">
+        <button class="btn btn-primary" id="zmbAddBtn"><i class="fas fa-plus-circle"></i> Add Record</button>
+        <button class="btn btn-success" id="zmbRefreshBtn"><i class="fas fa-sync-alt"></i> Refresh Data</button>
+        <button class="btn btn-warning" id="zmbViewBtn"><i class="fas fa-table"></i> View All Records</button>
+        <button class="btn btn-outline" id="zmbTestBtn"><i class="fas fa-plug"></i> Test Connection</button>
+    </div>
+
+    <div style="display: flex; gap: 20px; flex-wrap: wrap; background: #f8fafc; border-radius: 20px; padding: 0.8rem 1.5rem; margin-bottom: 12px;">
+        <span><i class="fas fa-database"></i> Total records: <strong id="zmbTotalCount">0</strong></span>
+        <span><i class="fas fa-calendar-check"></i> Total leave days: <strong id="zmbTotalLeave">0</strong></span>
+        <span><i class="fas fa-user-circle"></i> Logged in as: <strong id="zmbCurrentUser">User</strong></span>
+    </div>
+
+    <div style="margin-top: 10px;">
+        <p style="color: #6c7a89; font-size: 0.85rem;"><i class="fas fa-info-circle"></i> Click "View All Records" to open the full table with Add / Edit / Delete.</p>
+    </div>
+
+    <!-- MODAL -->
+    <div id="zmbModal" class="modal">
+        <div class="modal-content" style="max-width: 1400px; width: 98%;">
+            <div class="modal-header">
+                <h3><i class="fas fa-user-tie"></i> Zmb Employees · Records</h3>
+                <span class="modal-close" id="zmbModalClose">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div id="zmbModalMessage" style="display: none; padding: 8px 16px; border-radius: 40px; margin-bottom: 12px;"></div>
+                
+                <div style="overflow-x: auto; max-height: 70vh;">
+                    <table class="modal-table" id="zmbTable">
+                        <thead>
+                            <tr>
+                                <th style="min-width:40px;">#</th>
+                                <th style="min-width:120px;">Record Date</th>
+                                <th style="min-width:140px;">Employee Name</th>
+                                <th style="min-width:130px;">Start Date</th>
+                                <th style="min-width:130px;">End Date</th>
+                                <th style="min-width:90px;">Total Leave Days</th>
+                                <th style="min-width:140px;">Approved By</th>
+                                <th style="min-width:120px;">Current Shift</th>
+                                <th style="min-width:140px;">Remarks</th>
+                                <th style="min-width:160px;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="zmbTableBody">
+                            <tr>
+                                <td colspan="10" style="text-align:center; padding:40px;">Click "Refresh Data" to load records</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="footer-actions">
+                    <button class="btn btn-success" id="zmbSaveAllBtn"><i class="fas fa-save"></i> Save All Changes</button>
+                    <button class="btn btn-outline" id="zmbCloseModalBtn"><i class="fas fa-times"></i> Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <input type="file" id="zmbFileInput" accept=".pdf" style="display: none;" />
+</div>
+
+<script src="zmb.js"></script>
+</body>
+</html>
