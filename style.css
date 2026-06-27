@@ -1,7 +1,3 @@
-/* ============================================================================
-   1. GLOBAL RESET, CONFIGURATION & BASE STYLES
-   ============================================================================ */
-
 * {
     margin: 0;
     padding: 0;
@@ -17,11 +13,6 @@ body {
     font-size: 14px;
     transition: background 0.3s ease, color 0.3s ease;
 }
-
-
-/* ============================================================================
-   2. SYSTEM DARK MODE THEME OVERRIDES - ALL TEXT WHITE
-   ============================================================================ */
 
 body.dark-mode {
     background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
@@ -82,6 +73,11 @@ body.dark-mode .btn-primary {
 body.dark-mode .btn-outline {
     border: 1px solid rgba(255, 255, 255, 0.3);
     background: transparent;
+    color: white;
+}
+
+body.dark-mode .btn-success {
+    background: #28a745;
     color: white;
 }
 
@@ -293,12 +289,10 @@ body.dark-mode .pdf-modal-header {
     background: #0d2b2a;
 }
 
-/* Chart.js text color in dark mode */
 body.dark-mode .chart-box canvas {
     filter: brightness(1.1);
 }
 
-/* Ensure all icons are visible */
 body.dark-mode i,
 body.dark-mode .fas,
 body.dark-mode .far,
@@ -310,11 +304,6 @@ body.dark-mode .footer-social i:hover,
 body.dark-mode .footer-links a:hover {
     color: #ffd966;
 }
-
-
-/* ============================================================================
-   3. SYSTEM THEME SWITCHER COMPONENT
-   ============================================================================ */
 
 .theme-toggle {
     display: flex;
@@ -347,11 +336,6 @@ body.dark-mode .theme-btn {
     color: #ffd966;
 }
 
-
-/* ============================================================================
-   4. CORE STRUCTURE & CONTAINER CONTEXTS
-   ============================================================================ */
-
 .dashboard-container {
     max-width: 98%;
     width: 98%;
@@ -363,11 +347,6 @@ body.dark-mode .theme-btn {
     flex: 1;
     transition: all 0.3s ease;
 }
-
-
-/* ============================================================================
-   5. AIRPLANE SPLASH LOADING SCREEN OVERLAY
-   ============================================================================ */
 
 .airplane-overlay {
     position: fixed;
@@ -432,11 +411,6 @@ body.dark-mode .theme-btn {
     font-size: 55px;
     animation: cloudMove 5s linear infinite;
 }
-
-
-/* ============================================================================
-   6. GATEWAY & PORTAL SECURITY LOGIN MODAL
-   ============================================================================ */
 
 .login-modal {
     display: flex;
@@ -573,11 +547,6 @@ body.dark-mode .theme-btn {
     display: inline-block;
 }
 
-
-/* ============================================================================
-   7. CORPORATE BRAND HEADER & REAL-TIME SUMMARY STATS
-   ============================================================================ */
-
 .company-header {
     background: linear-gradient(135deg, #0f3b3a 0%, #1a5c55 100%);
     padding: 1.2rem 2rem;
@@ -630,11 +599,6 @@ body.dark-mode .theme-btn {
     color: #ffd966;
 }
 
-
-/* ============================================================================
-   8. USER META SESSION MANAGEMENT STRIP
-   ============================================================================ */
-
 .login-section {
     background: #f0f4f8;
     padding: 0.8rem 2rem;
@@ -678,11 +642,6 @@ body.dark-mode .theme-btn {
     background: #c82333;
     transform: scale(1.02);
 }
-
-
-/* ============================================================================
-   9. INTERACTIVE HERO BAR & DASHBOARD NAVIGATION CONTROLS
-   ============================================================================ */
 
 .hero-section {
     background: linear-gradient(135deg, #1e6f5c 0%, #2c8a74 100%);
@@ -804,11 +763,6 @@ body.dark-mode .theme-btn {
     pointer-events: none;
 }
 
-
-/* ============================================================================
-   10. BUSINESS INTEL & DATA VISUALIZATION CARDS (ANALYTICS)
-   ============================================================================ */
-
 .analytics-section {
     background: #ffffff;
     margin: 1rem;
@@ -914,11 +868,6 @@ body.dark-mode .theme-btn {
     padding-top: 0.6rem;
 }
 
-
-/* ============================================================================
-   11. DATA DISPLAY & EDIT MODE MODAL DIALOGUES
-   ============================================================================ */
-
 .modal {
     display: none;
     position: fixed;
@@ -974,11 +923,6 @@ body.dark-mode .theme-btn {
     padding: 1.2rem;
 }
 
-
-/* ============================================================================
-   12. INTERACTIVE COMPONENT GRID ARCHITECTURE (MODAL TABLES)
-   ============================================================================ */
-
 .modal-table {
     width: 100%;
     border-collapse: collapse;
@@ -1016,11 +960,6 @@ body.dark-mode .theme-btn {
     font-size: 0.75rem;
     width: 100%;
 }
-
-
-/* ============================================================================
-   13. COMPONENT BADGES & OPERATIONAL CALLOUT CONTEXTS
-   ============================================================================ */
 
 .status-badge {
     display: inline-flex !important;
@@ -1062,11 +1001,6 @@ body.dark-mode .theme-btn {
     background-color: #d1ecf1 !important;
     color: #0c5460 !important;
 }
-
-
-/* ============================================================================
-   14. RECORD-LEVEL INTERACTION ACTION CONTROL UTILITIES
-   ============================================================================ */
 
 .action-btn {
     border: none;
@@ -1135,11 +1069,6 @@ body.dark-mode .theme-btn {
     max-width: 180px;
     word-break: break-word;
 }
-
-
-/* ============================================================================
-   15. MONTHLY METRIC SUMMARY REPORTS PANEL
-   ============================================================================ */
 
 .summary-card {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -1220,11 +1149,6 @@ body.dark-mode .theme-btn {
     cursor: pointer;
 }
 
-
-/* ============================================================================
-   16. TICKETING DOCUMENT STREAM (LARGE PDF OVERLAY VIEWPORT)
-   ============================================================================ */
-
 .pdf-modal {
     display: none;
     position: fixed;
@@ -1290,11 +1214,6 @@ body.dark-mode .theme-btn {
     display: flex;
     justify-content: space-between;
 }
-
-
-/* ============================================================================
-   17. ANCHORED SITE SYSTEM FOOTER CONTEXTS
-   ============================================================================ */
 
 .main-footer {
     background: linear-gradient(135deg, #0f3b3a 0%, #123b4e 100%);
@@ -1368,11 +1287,6 @@ body.dark-mode .theme-btn {
     flex-wrap: wrap;
 }
 
-
-/* ============================================================================
-   18. GLOBAL CORE SYSTEM ANIMATIONS
-   ============================================================================ */
-
 @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
@@ -1423,11 +1337,6 @@ body.dark-mode .theme-btn {
         opacity: 1;
     }
 }
-
-
-/* ============================================================================
-   19. HARD CODES RESPONSIVE VIEWPORT BREAKPOINTS
-   ============================================================================ */
 
 @media (max-width: 700px) {
     .hero-title {
