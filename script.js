@@ -1,9 +1,10 @@
+
+
 // ============================================================================
 // 1. CONFIGURATION & GLOBAL STATE
 // ============================================================================
 
-// ⚠️ REPLACE WITH YOUR ACTUAL GOOGLE APPS SCRIPT URL
-const EMBEDDED_GOOGLE_URL = "https://script.google.com/macros/s/AKfycbxP5ItVFDfZPwV6FZkVB_H2z8BwwPcrbEU-xiHuIFjuPS24q88uklEYVfWutJBL2t4y/exec";
+const EMBEDDED_GOOGLE_URL = "https://script.google.com/macros/s/AKfycbyOaEqHirF2nZhAT-jSwTvDSVLFvuwbhKRDaZNJpTsOG2-KrQXGYpwm-YLkTU0KNorh/exec";
 const GOOGLE_SHEET_URL = "https://docs.google.com/spreadsheets/d/1yCx5mPGjdvwpQ1mxjq2zRR9Q45MrF_naIhOLUP4terk/edit";
 let GOOGLE_URL = EMBEDDED_GOOGLE_URL;
 
@@ -26,37 +27,9 @@ let tempPdfData = {};
 let tempRowCounter = 0;
 let animationPlayed = false;
 
+// Initialize theme immediately on script execute
 document.addEventListener("DOMContentLoaded", () => {
     loadSavedTheme();
-    setupZmbButton();
-    
-    const urlParams = new URLSearchParams(window.location.search);
-    const fromZmb = urlParams.get('from');
-    
-    if (fromZmb === 'zmb') {
-        const savedUser = localStorage.getItem('zmb_currentUser');
-        if (savedUser && savedUser !== 'Guest') {
-            for (const [key, value] of Object.entries(users)) {
-                if (value.name === savedUser) {
-                    currentUserRole = value.role;
-                    currentUserName = value.name;
-                    
-                    document.getElementById('loginModal').style.display = 'none';
-                    document.getElementById('mainContainer').style.display = 'block';
-                    document.getElementById('mainFooter').style.display = 'block';
-                    
-                    document.getElementById('currentUser').innerText = currentUserName;
-                    document.getElementById('currentRole').innerText = currentUserRole.toUpperCase();
-                    
-                    applyUIRestrictions();
-                    initializeApp();
-                    startAutoRefresh();
-                    setTimeout(() => loadFromGoogleSheet(), 100);
-                    break;
-                }
-            }
-        }
-    }
 });
 
 // ============================================================================
@@ -361,9 +334,7 @@ async function saveToGoogleSheet(dataToSave) {
             pdfBase64: e.pdfBase64,
             status: e.status
         })); 
-        const url = GOOGLE_URL + '?sheet=Sheet1';
-        console.log('Saving main data to:', url);
-        await fetch(url, {
+        await fetch(GOOGLE_URL, {
             method: 'POST',
             mode: 'no-cors',
             headers: { 'Content-Type': 'application/json' },
@@ -377,22 +348,13 @@ async function saveToGoogleSheet(dataToSave) {
 }
 
 async function loadFromGoogleSheet() { 
-    updateSyncLabel('Loading from Sheet1...'); 
+    updateSyncLabel('Loading...'); 
     try { 
-        const url = GOOGLE_URL + '?sheet=Sheet1';
-        console.log('Loading main data from:', url);
-        
-        const res = await fetch(url); 
-        if (!res.ok) {
-            throw new Error(`HTTP error! status: ${res.status}`);
-        }
-        
+        const res = await fetch(GOOGLE_URL); 
         const data = await res.json(); 
-        console.log('Main data response:', data);
-        
         if (Array.isArray(data)) { 
             if (data.length === 0) { 
-                updateSyncLabel('No records in Sheet1', true); 
+                updateSyncLabel('No records', true); 
                 sheetData = []; 
                 employeesData = []; 
             } else { 
@@ -408,25 +370,17 @@ async function loadFromGoogleSheet() {
                     status: row.status || row.Status || '' 
                 })); 
                 employeesData = [...sheetData]; 
-                updateSyncLabel(`✅ Loaded ${sheetData.length} records from Sheet1`); 
+                updateSyncLabel(`✅ Loaded ${sheetData.length} records`); 
             } 
             renderModalTable(); 
             updateAnalytics(); 
             updateStatsUI(); 
         } else {
-            console.error('Invalid response:', data);
-            throw new Error('Invalid response format from server'); 
+            throw new Error('Invalid response'); 
         }
     } catch(err) { 
-        updateSyncLabel('❌ Failed - ' + (err.message || 'Unknown error'), true); 
-        console.error('Load error:', err);
-        
-        // Show user-friendly message
-        if (err.message.includes('Failed to fetch') || err.message.includes('NetworkError')) {
-            showModalMessage('⚠️ Cannot connect to server. Please check:\n1. Your internet connection\n2. The Google Apps Script URL is correct\n3. The script is deployed with "Anyone" access', 'error');
-        } else {
-            showModalMessage('Error loading data: ' + err.message, 'error');
-        }
+        updateSyncLabel('❌ Failed', true); 
+        console.error(err); 
     } 
 }
 
@@ -458,28 +412,13 @@ async function refreshAndLoad() {
 async function testConnection() { 
     updateSyncLabel('Testing...'); 
     try { 
-        const url = GOOGLE_URL + '?sheet=Sheet1';
-        console.log('Testing connection to:', url);
-        
-        const res = await fetch(url); 
-        if (!res.ok) {
-            throw new Error(`HTTP error! status: ${res.status}`);
-        }
-        
+        const res = await fetch(GOOGLE_URL); 
         const data = await res.json(); 
-        alert(`✅ Connected! Found ${data.length} records in Sheet1.`); 
+        alert(`✅ Connected! Found ${data.length} records.`); 
         updateSyncLabel('✓ Connected'); 
     } catch(e) { 
         updateSyncLabel('❌ Failed', true); 
-        console.error('Connection test error:', e);
-        
-        let errorMsg = 'Cannot connect to Google Sheets. ';
-        if (e.message.includes('Failed to fetch') || e.message.includes('NetworkError')) {
-            errorMsg += 'Please check your internet connection and try again.';
-        } else {
-            errorMsg += e.message;
-        }
-        alert(errorMsg);
+        alert('Cannot connect.'); 
     } 
 }
 
@@ -1027,12 +966,9 @@ function logout() {
     if (autoRefreshInterval) clearInterval(autoRefreshInterval); 
     currentUserRole = null; 
     currentUserName = null; 
-    localStorage.removeItem('zmb_currentUser');
     document.getElementById('mainContainer').style.display = 'none'; 
     document.getElementById('mainFooter').style.display = 'none'; 
     document.getElementById('loginModal').style.display = 'flex'; 
-    document.getElementById('username').value = '';
-    document.getElementById('password').value = '';
     closeModal(); 
     closeAddModal(); 
     closeGoogleSheetPopup(); 
@@ -1088,21 +1024,4 @@ function initializeApp() {
     document.getElementById('closeGoogleSheetModal').onclick = closeGoogleSheetPopup; 
     document.getElementById('closePdfViewerModal').onclick = closeLargePdf; 
     document.getElementById('closeSummaryModal').onclick = closeSummaryModal; 
-}
-
-// ============================================================================
-// 11. ZMB EMPLOYEE MODULE - OPEN IN SAME PAGE
-// ============================================================================
-
-function setupZmbButton() {
-    const zmbBtn = document.getElementById('zmbEmployeesBtn');
-    if (zmbBtn) {
-        zmbBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            if (currentUserName) {
-                localStorage.setItem('zmb_currentUser', currentUserName);
-            }
-            window.location.href = 'zmb.html';
-        });
-    }
 }
